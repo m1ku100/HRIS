@@ -12,25 +12,24 @@
                     <div class="col-md-12">
                         <div class="table-data__tool">
                             <div class="table-data__tool-left">
-                                <div class="rs-select2--light rs-select2--md">
-                                    <select class="js-select2" name="property">
-                                        <option selected="selected">All Properties</option>
-                                        <option value="">Option 1</option>
-                                        <option value="">Option 2</option>
-                                    </select>
-                                    <div class="dropDownSelect2"></div>
-                                </div>
-                                <div class="rs-select2--light rs-select2--sm">
-                                    <select class="js-select2" name="time">
-                                        <option selected="selected">Today</option>
-                                        <option value="">3 Days</option>
-                                        <option value="">1 Week</option>
-                                    </select>
-                                    <div class="dropDownSelect2"></div>
-                                </div>
-                                <button class="au-btn-filter">
-                                    <i class="zmdi zmdi-filter-list"></i>filters
-                                </button>
+                                <h3>Posisi Yang Dibutuhkan Saat Ini</h3>
+                                {{--<form>--}}
+                                {{--<div class="rs-select2--light rs-select2--lg">--}}
+                                    {{--<label for="nf-email" class="form-control-label">Start From</label>--}}
+                                    {{--<input type="date" id="nf-email" name="keahlian"--}}
+
+                                           {{--class="form-control">--}}
+                                {{--</div>--}}
+                                {{--<div class="rs-select2--light rs-select2--lg">--}}
+                                    {{--<label for="nf-email" class="form-control-label">Till</label>--}}
+                                    {{--<input type="date" id="nf-email" name="keahlian"--}}
+
+                                           {{--class="form-control">--}}
+                                {{--</div>--}}
+                                {{--<button class="au-btn-filter">--}}
+                                    {{--<i class="zmdi zmdi-filter-list"></i>filters--}}
+                                {{--</button>--}}
+                                {{--</form>--}}
                             </div>
                             <div class="table-data__tool-right">
                                 <a href="{{route('posisi-form')}}">
@@ -131,6 +130,9 @@
                                 @endforeach
                                 </tbody>
                             </table>
+                            <div class="filters m-b-45">
+                                {{ $posisi->links() }}
+                            </div>
                         </div>
                     </div>
                 </div>
