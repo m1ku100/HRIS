@@ -175,7 +175,7 @@
                                         @else
                                             @foreach(App\Pendidikan::where('user_id',Auth::user()->id)->get() as $pend)
                                                 <div class="mx-auto d-block">
-                                                    {{App\Edu::find($pend->id)->jenjang}} - {{$pend->instansi}}
+                                                    {{App\Edu::find($pend->edu_id)->jenjang}} - {{$pend->instansi}}
                                                 </div>
                                                 <hr>
                                                 <div class="card-text text-sm-center">
