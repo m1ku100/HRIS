@@ -165,7 +165,9 @@
     <aside class="menu-sidebar d-none d-lg-block">
         <div class="logo">
             <a href="#">
-                <img src="images/icon/logo.png" alt="Cool Admin"/>
+                <center>
+               <h4>Human Resource Information System</h4>
+                </center>
             </a>
         </div>
         <div class="menu-sidebar__content js-scrollbar1">
@@ -252,12 +254,12 @@
                                                 <span class="email"> {{ Auth::user()->email }}</span>
                                             </div>
                                         </div>
-                                        <div class="account-dropdown__body">
-                                            <div class="account-dropdown__item">
-                                                <a href="#">
-                                                    <i class="zmdi zmdi-account"></i>Account</a>
-                                            </div>
-                                        </div>
+                                        {{--<div class="account-dropdown__body">--}}
+                                            {{--<div class="account-dropdown__item">--}}
+                                                {{--<a href="#">--}}
+                                                    {{--<i class="zmdi zmdi-account"></i>Account</a>--}}
+                                            {{--</div>--}}
+                                        {{--</div>--}}
                                         <div class="account-dropdown__footer">
                                             <a href="{{ route('logout') }}"
                                                onclick="event.preventDefault();
