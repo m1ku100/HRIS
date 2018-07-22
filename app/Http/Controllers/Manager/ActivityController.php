@@ -26,7 +26,7 @@ class ActivityController extends Controller
 
     public function posisi()
     {
-        $posisi = Posisi::orderBy('created_at', 'DESC')->get();
+        $posisi = Posisi::orderBy('created_at', 'DESC')->paginate(10);
         return view('manajer.posisi', compact('posisi'));
     }
 
@@ -86,7 +86,9 @@ class ActivityController extends Controller
 
     public function lamaran()
     {
-        $posisi = Posisi::orderBy('created_at', 'DESC')->get();
+        $posisi = Posisi::whereHas('pelamar')->paginate(10);
+//        $posisi = Posisi::paginate(10);
+
         return view('manajer.lamaran', compact('posisi'));
     }
 
@@ -101,6 +103,9 @@ class ActivityController extends Controller
         $serti = Sertificate::findOrFail(decrypt($request->id));
         return view('manajer.certificate', compact('serti'));
     }
+
+
+    //halaman akun
 
     public function account()
     {

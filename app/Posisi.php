@@ -16,4 +16,9 @@ class Posisi extends Model
         ];
 
     protected $dates = ['deleted_at'];
+
+    public function pelamar()
+    {
+        return $this->hasMany('App\Lamaran', 'posisi_id');
+    }
 }
