@@ -8,6 +8,7 @@ use App\Sertificate;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -90,6 +91,24 @@ class ActivityController extends Controller
 //        $posisi = Posisi::paginate(10);
 
         return view('manajer.lamaran', compact('posisi'));
+    }
+
+    public function search(Request $request)
+    {
+        try {
+            Carbon::parse($request->start)->addDay(-1);
+            Carbon::parse($request->end);
+        } catch (\Exception $exception) {
+            return back()->with('success', '');
+        }
+
+        $posisi = Posisi::whereHas('pelamar')->where('created_at', '>=', Carbon::parse($request->start))->where('created_at', '<=', Carbon::parse($request->end)->addDay(+1))->paginate(10);
+
+        if ($posisi == null) {
+            return back()->with('error', '');
+        } else {
+            return view('manajer.lamaran', compact('posisi'));
+        }
     }
 
     public function detail(Request $request)

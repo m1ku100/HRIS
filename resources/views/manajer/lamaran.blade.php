@@ -10,22 +10,23 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
+                        <h3>Lamaran yang Masuk</h3>
                         <div class="table-data__tool">
                             <div class="table-data__tool-left">
-                                <form>
+                                <form action="{{route('lamaran-cari')}}" method="get">
                                     <div class="rs-select2--light rs-select2--lg">
                                         <label for="nf-email" class="form-control-label">Start From</label>
-                                        <input type="date" id="nf-email" name="keahlian"
+                                        <input type="date" id="nf-email" name="start"
 
                                                class="form-control">
                                     </div>
                                     <div class="rs-select2--light rs-select2--lg">
                                         <label for="nf-email" class="form-control-label">Till</label>
-                                        <input type="date" id="nf-email" name="keahlian"
+                                        <input type="date" id="nf-email" name="end"
 
                                                class="form-control">
                                     </div>
-                                    <button class="au-btn-filter">
+                                    <button type="submit" class="au-btn-filter">
                                         <i class="zmdi zmdi-filter-list"></i>filters
                                     </button>
                                 </form>
@@ -46,135 +47,140 @@
                                 <?php
                                 $num = 1;
                                 ?>
+                                @if(is_null($posisi))
+                                @else
+                                    @foreach($posisi as $pos)
 
-                                @foreach($posisi as $pos)
-
-                                    <tr class="tr-shadow">
-                                        <td>{{$num}}</td>
-                                        <?php
-                                        $num++;
-                                        ?>
-                                        <td class="desc">{{$pos->nama}}</td>
-                                        <td>{{$pos->created_at->format('D,d M Y')}}</td>
-                                        <td>
-                                            <div class="pull-left">
-                                                <div class="table-data-feature">
-                                                    {{--<a href="#" id="edit_{{ $pos->id }}">--}}
-                                                    {{--<button class="item" data-toggle="tooltip" data-placement="top"--}}
-                                                    {{--title="Edit">--}}
-                                                    {{--<i class="zmdi zmdi-edit"></i>--}}
-                                                    {{--</button>--}}
-                                                    {{--</a>--}}
-                                                    <a href="#" id="show_{{ $pos->id }}">
-                                                        <button class="item" data-toggle="tooltip" data-placement="top"
-                                                                title="Data Pelamar">
-                                                            <i class="zmdi zmdi-more"></i>
-                                                        </button>
-                                                    </a>
+                                        <tr class="tr-shadow">
+                                            <td>{{$num}}</td>
+                                            <?php
+                                            $num++;
+                                            ?>
+                                            <td class="desc">{{$pos->nama}}</td>
+                                            <td>{{$pos->created_at->format('D,d M Y')}}</td>
+                                            <td>
+                                                <div class="pull-left">
+                                                    <div class="table-data-feature">
+                                                        {{--<a href="#" id="edit_{{ $pos->id }}">--}}
+                                                        {{--<button class="item" data-toggle="tooltip" data-placement="top"--}}
+                                                        {{--title="Edit">--}}
+                                                        {{--<i class="zmdi zmdi-edit"></i>--}}
+                                                        {{--</button>--}}
+                                                        {{--</a>--}}
+                                                        <a href="#" id="show_{{ $pos->id }}">
+                                                            <button class="item" data-toggle="tooltip"
+                                                                    data-placement="top"
+                                                                    title="Data Pelamar">
+                                                                <i class="zmdi zmdi-more"></i>
+                                                            </button>
+                                                        </a>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                            </td>
+                                        </tr>
 
-                                    <tr id="extra_{{ $pos->id }}" class="tr-shadow" style="display: none">
-                                        <td colspan="4">
-                                            <div class="table-responsive table-responsive-data2">
-                                                <table class="table table-data2">
-                                                    <thead>
-                                                    <tr>
-                                                        <th colspan="6">
-                                                            <center>
-                                                                <h4>Daftar Pelamar Pada Posisi Ini</h4>
-                                                            </center>
-                                                        </th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>No</td>
-                                                        <th>Nama Pelamar</th>
-                                                        <th>Email Pelamar</th>
-                                                        <th>Tanggal Masuk Lamaran</th>
-                                                        <th>status</th>
-                                                        <th></th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <?php
-                                                    $no = 1;
-                                                    ?>
-                                                    @foreach(App\Lamaran::where('posisi_id',$pos->id)->get() as $pelamar)
-                                                        <tr class="tr-shadow">
-                                                            <td>{{$no}}</td>
-                                                            <?php
-                                                            $no++;
-                                                            ?>
-                                                            <td>{{App\User::find($pelamar->user_id)->name}}</td>
-                                                            <td>
-                                                                <span class="block-email">{{App\User::find($pelamar->user_id)->name}}</span>
-                                                            </td>
-                                                            <td>{{$pelamar->created_at->format('D,d M Y')}}</td>
-                                                            <td>
-                                                                <span class="status--process">Processed</span>
-                                                            </td>
-                                                            <td>
-                                                                <div class="table-data-feature">
-                                                                    <button class="item" data-toggle="tooltip"
-                                                                            data-placement="top"
-                                                                            title="Tandai Sebagai Diterima">
-                                                                        <i class="zmdi zmdi-check"></i>
-                                                                    </button>
-                                                                    <a target="_blank" href="{{ route('lamaran-detail', ['id' =>  $es = encrypt($pelamar->user_id)]) }}">
+                                        <tr id="extra_{{ $pos->id }}" class="tr-shadow" style="display: none">
+                                            <td colspan="4">
+                                                <div class="table-responsive table-responsive-data2">
+                                                    <table class="table table-data2">
+                                                        <thead>
+                                                        <tr>
+                                                            <th colspan="6">
+                                                                <center>
+                                                                    <h4>Daftar Pelamar Pada Posisi Ini</h4>
+                                                                </center>
+                                                            </th>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>No</td>
+                                                            <th>Nama Pelamar</th>
+                                                            <th>Email Pelamar</th>
+                                                            <th>Tanggal Masuk Lamaran</th>
+                                                            <th>status</th>
+                                                            <th></th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <?php
+                                                        $no = 1;
+                                                        ?>
+                                                        @foreach(App\Lamaran::where('posisi_id',$pos->id)->get() as $pelamar)
+                                                            <tr class="tr-shadow">
+                                                                <td>{{$no}}</td>
+                                                                <?php
+                                                                $no++;
+                                                                ?>
+                                                                <td>{{App\User::find($pelamar->user_id)->name}}</td>
+                                                                <td>
+                                                                    <span class="block-email">{{App\User::find($pelamar->user_id)->name}}</span>
+                                                                </td>
+                                                                <td>{{$pelamar->created_at->format('D,d M Y')}}</td>
+                                                                <td>
+                                                                    <span class="status--process">Processed</span>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="table-data-feature">
                                                                         <button class="item" data-toggle="tooltip"
                                                                                 data-placement="top"
-                                                                                title="Detail Pelamar">
-                                                                            <i class="zmdi zmdi-more"></i>
+                                                                                title="Tandai Sebagai Diterima">
+                                                                            <i class="zmdi zmdi-check"></i>
                                                                         </button>
-                                                                    </a>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr class="spacer"></tr>
-                                                    @endforeach
+                                                                        <a target="_blank"
+                                                                           href="{{ route('lamaran-detail', ['id' =>  $es = encrypt($pelamar->user_id)]) }}">
+                                                                            <button class="item" data-toggle="tooltip"
+                                                                                    data-placement="top"
+                                                                                    title="Detail Pelamar">
+                                                                                <i class="zmdi zmdi-more"></i>
+                                                                            </button>
+                                                                        </a>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr class="spacer"></tr>
+                                                        @endforeach
 
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </td>
-
-
-                                    </tr>
-
-                                    <tr id="form_{{ $pos->id }}" class="tr-shadow" style="display: none">
-                                        <td><strong> Edit Posisi : </strong></td>
-                                        <td colspan="3">
-                                            <form action="{{route('posisi-update')}}" method="post">
-                                                {{ csrf_field() }}
-                                                <div class="form-group">
-                                                    <label for="nf-email" class="form-control-label">Nama
-                                                        Posisi </label>
-                                                    <input type="text" id="nf-email" name="nama"
-                                                           placeholder="Posisi yang Dibutuhkan" value="{{$pos->nama}}"
-                                                           class="form-control">
-                                                    <input type="hidden" name="id" value="{{ $pos->id }}">
+                                                        </tbody>
+                                                    </table>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label for="nf-email" class="form-control-label">Deskripsi Posisi
-                                                        yang
-                                                        Dibutuhkan</label>
-                                                    <textarea class="form-control use-tinymce" name="deskripsi"
-                                                              placeholder="Deskripsi Posisi yang Dibutuhkan...."> {!! $pos->deskripsi !!} </textarea>
-                                                    {{--<input type="email" id="nf-email" name="nf-email" placeholder="Enter Email.."--}}
-                                                    {{--class="form-control" >--}}
-                                                </div>
-                                                <button type="submit" class="btn btn-primary btn-md">
-                                                    <i class="fa fa-dot-circle-o"></i> Update Data
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
+                                            </td>
 
-                                    <tr class="spacer"></tr>
-                                @endforeach
 
+                                        </tr>
+
+                                        <tr id="form_{{ $pos->id }}" class="tr-shadow" style="display: none">
+                                            <td><strong> Edit Posisi : </strong></td>
+                                            <td colspan="3">
+                                                <form action="{{route('posisi-update')}}" method="post">
+                                                    {{ csrf_field() }}
+                                                    <div class="form-group">
+                                                        <label for="nf-email" class="form-control-label">Nama
+                                                            Posisi </label>
+                                                        <input type="text" id="nf-email" name="nama"
+                                                               placeholder="Posisi yang Dibutuhkan"
+                                                               value="{{$pos->nama}}"
+                                                               class="form-control">
+                                                        <input type="hidden" name="id" value="{{ $pos->id }}">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="nf-email" class="form-control-label">Deskripsi
+                                                            Posisi
+                                                            yang
+                                                            Dibutuhkan</label>
+                                                        <textarea class="form-control use-tinymce" name="deskripsi"
+                                                                  placeholder="Deskripsi Posisi yang Dibutuhkan...."> {!! $pos->deskripsi !!} </textarea>
+                                                        {{--<input type="email" id="nf-email" name="nf-email" placeholder="Enter Email.."--}}
+                                                        {{--class="form-control" >--}}
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary btn-md">
+                                                        <i class="fa fa-dot-circle-o"></i> Update Data
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+
+                                        <tr class="spacer"></tr>
+                                    @endforeach
+                                @endif
 
                                 </tbody>
                             </table>
