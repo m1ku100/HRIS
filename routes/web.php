@@ -156,6 +156,11 @@ Route::group(['prefix' => 'manajer'], function () {
         'as' => 'lamaran-cari'
     ]);
 
+    Route::post('/lamaran/active', [
+        'uses' => 'Manager\ActivityController@proses',
+        'as' => 'lamaran-proses'
+    ]);
+
     Route::get('/lamaran/certificate/{id}', [
         'uses' => 'Manager\ActivityController@certificate',
         'as' => 'certificate-detail'

@@ -116,15 +116,32 @@
                                                                 </td>
                                                                 <td>{{$pelamar->created_at->format('D,d M Y')}}</td>
                                                                 <td>
-                                                                    <span class="status--process">Processed</span>
+                                                                    @if($pelamar->is_atasi == true)
+                                                                        <span class="status--process">Sudah Diproses</span>
+                                                                    @else
+                                                                        <span class="status--denied">Belum Diproses</span>
+                                                                    @endif
                                                                 </td>
                                                                 <td>
                                                                     <div class="table-data-feature">
-                                                                        <button class="item" data-toggle="tooltip"
-                                                                                data-placement="top"
-                                                                                title="Tandai Sebagai Diterima">
-                                                                            <i class="zmdi zmdi-check"></i>
-                                                                        </button>
+                                                                        @if($pelamar->is_atasi == false)
+                                                                            <form action="{{route('lamaran-proses')}}"
+                                                                                  method="post">
+                                                                                {{ csrf_field() }}
+                                                                                <input type="hidden"
+                                                                                       value="{{$pelamar->id}}"
+                                                                                       name="id">
+                                                                                <input type="hidden" value="1"
+                                                                                       name="is_atasi">
+                                                                                <button type="submit" class="item"
+                                                                                        data-toggle="tooltip"
+                                                                                        data-placement="top"
+                                                                                        title="Tandai Sebagai Telah Diproses">
+                                                                                    <i class="zmdi zmdi-check"></i>
+                                                                                </button>
+                                                                            </form>
+                                                                        @else
+                                                                        @endif
                                                                         <a target="_blank"
                                                                            href="{{ route('lamaran-detail', ['id' =>  $es = encrypt($pelamar->user_id)]) }}">
                                                                             <button class="item" data-toggle="tooltip"
@@ -223,8 +240,8 @@
         @endif
         @if(Session::has('update'))
         swal({
-            title: 'Data Posisi',
-            text: 'Berhasil Diperbaharui!!',
+            title: 'Data Pelamar',
+            text: 'Berhasil Diproses!!',
             type: 'success',
             timer: '3500'
         })

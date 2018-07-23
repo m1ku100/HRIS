@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Manager;
 
 
+use App\Lamaran;
 use App\Posisi;
 use App\Sertificate;
 use App\User;
@@ -91,6 +92,16 @@ class ActivityController extends Controller
 //        $posisi = Posisi::paginate(10);
 
         return view('manajer.lamaran', compact('posisi'));
+    }
+
+    public function proses(Request $request)
+    {
+        $lamaran = Lamaran::find($request->id);
+        $lamaran->update([
+            'is_atasi' => true,
+        ]);
+
+        return back()->with('update', 'Berhasil Memperbarui Data!!');
     }
 
     public function search(Request $request)
