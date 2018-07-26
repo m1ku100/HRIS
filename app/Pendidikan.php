@@ -12,7 +12,7 @@ class Pendidikan extends Model
     protected $table = 'pendidikan';
 
     protected $fillable = [
-        'id', 'user_id', 'edu_id', 'instansi', 'tahun_lulus' , 'ipk'
+        'id', 'user_id', 'edu_id', 'instansi', 'negara_id', 'tahun_lulus' , 'ipk'
     ];
 
     protected $dates = ['deleted_at'];
