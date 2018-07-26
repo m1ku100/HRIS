@@ -17,6 +17,7 @@ class CreatePosisisTable extends Migration
             $table->increments('id');
             $table->string('nama');
             $table->text('deskripsi');
+            $table->boolean('is_over')->default(false);
             $table->softDeletes();
             $table->timestamps();
         });

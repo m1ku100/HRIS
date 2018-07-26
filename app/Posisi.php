@@ -12,7 +12,7 @@ class Posisi extends Model
     protected $table = 'posisi';
 
     protected $fillable = [
-        'id', 'nama', 'deskripsi',
+        'id', 'nama', 'deskripsi', 'is_over',
         ];
 
     protected $dates = ['deleted_at'];

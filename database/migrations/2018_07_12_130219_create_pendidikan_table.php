@@ -20,6 +20,8 @@ class CreatePendidikanTable extends Migration
             $table->integer('edu_id')->unsigned();
             $table->foreign('edu_id')->references('id')->on('edu')->onUpdate('CASCADE');
             $table->string('instansi');
+            $table->string('tahun_lulus');
+            $table->string('ipk');
             $table->softDeletes();
             $table->timestamps();
         });
