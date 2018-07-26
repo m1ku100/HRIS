@@ -12,7 +12,7 @@ class Skill extends Model
     protected $table = 'skill';
 
     protected $fillable = [
-        'id', 'tingkat', 'deskripsi',
+        'id','user_id', 'tingkat', 'deskripsi',
     ];
 
     protected $dates = ['deleted_at'];

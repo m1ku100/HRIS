@@ -15,6 +15,8 @@ class CreateSkillsTable extends Migration
     {
         Schema::create('skill', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('CASCADE');
             $table->string('tingkat');
             $table->text('deskripsi');
             $table->softDeletes();
