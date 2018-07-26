@@ -13,8 +13,9 @@ class CreateAcceptingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('acceptings', function (Blueprint $table) {
+        Schema::create('negara', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('nama');
             $table->timestamps();
         });
     }
