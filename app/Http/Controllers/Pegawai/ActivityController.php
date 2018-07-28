@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers\Pegawai;
 
+use App\Bahasa;
 use App\Employee;
+use App\Experience;
 use App\Lamaran;
 use App\Pendidikan;
 use App\Posisi;
 use App\Sertificate;
+use App\Skill;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class ActivityController extends Controller
 {
@@ -17,7 +21,7 @@ class ActivityController extends Controller
     //halaman dashboard
     public function index()
     {
-        return view('Pegawai.home');
+        return view('pegawai.home');
     }
 
     public function deletelamaran(Request $request)
@@ -59,11 +63,15 @@ class ActivityController extends Controller
 
     }
 
+    //Halaman Resume
 
-    //halaman Account
-    public function account()
+    public function resume()
     {
-        return view('pegawai.akunpeg');
+        $pend = Pendidikan::where('user_id',Auth::user()->id)->orderBy('tahun_lulus','desc')->get();
+        $work = Experience::where('user_id',Auth::user()->id)->orderBy('work_from','desc')->get();
+        $skill = Skill::where('user_id',Auth::user()->id)->get();
+        $bahasa = Bahasa::where('user_id',Auth::user()->id)->get();
+        return view('pegawai.resume',compact('pend','work','skill','bahasa'));
     }
 
     public function add()
@@ -102,7 +110,7 @@ class ActivityController extends Controller
             'email' => $request->email,
         ]);
 
-        return redirect('/emp/account')->with([
+        return redirect('/emp/resume')->with([
             'success' => 'Data Diri Berhasil Diubah!'
         ]);
 
@@ -132,11 +140,145 @@ class ActivityController extends Controller
             'email' => $request->email,
         ]);
 
-        return redirect('/emp/account')->with([
+        return redirect('/emp/resume')->with([
             'success' => 'Data Diri Berhasil Diubah!'
         ]);
 
 
+    }
+
+    public function workadd(Request $request)
+    {
+        $request->validate([
+            'job_title' => 'required',
+            'company' => 'required',
+            'industri_id' => 'required',
+            'position' => 'required',
+            'jenis_gaji' => 'required',
+            'salary' => 'required',
+            'des_pos' => 'required',
+            'work_from' => 'required',
+            'work_till' => 'required',
+            'user_id' => 'required',
+
+        ]);
+
+        Experience::create([
+            'job_title' => $request->job_title,
+            'company' => $request->company,
+            'industri_id' => $request->industri_id,
+            'position' => $request->position,
+            'salary' => $request->salary,
+            'jenis_gaji' => $request->jenis_gaji,
+            'des_pos' => $request->des_pos,
+            'email' => $request->email,
+            'work_from' => $request->work_from,
+            'work_till' => $request->work_till,
+            'user_id' => $request->user_id,
+        ]);
+
+        return redirect('/emp/resume')->with([
+            'success' => 'Data Diri Berhasil Diubah!'
+        ]);
+    }
+
+    public function edu()
+    {
+
+        return view('pegawai.edu');
+    }
+
+    public function eduadd(Request $request)
+    {
+        $request->validate([
+            'edu_id' => 'required',
+            'instansi' => 'required',
+            'user_id' => 'required',
+            'negara_id' => 'required',
+            'tahun_lulus' => 'required',
+            'ipk' => 'required',
+            'jurusan' => 'required',
+        ]);
+
+        Pendidikan::create([
+            'edu_id' => $request->edu_id,
+            'instansi' => $request->instansi,
+            'user_id' => $request->user_id,
+            'negara_id' => $request->negara_id,
+            'tahun_lulus' => $request->tahun_lulus,
+            'ipk' => $request->ipk,
+            'jurusan' => $request->jurusan,
+        ]);
+
+        return redirect('/emp/resume')->with([
+            'success' => 'Data Diri Berhasil Diubah!'
+        ]);
+    }
+
+    public function edudelete(Request $request)
+    {
+        $pend = Pendidikan::find($request->id);
+        $pend->delete();
+
+        return back()->with([
+            'success' => 'Berhasil Memperbarui Profile !'
+        ]);
+    }
+
+    public function skill(Request $request)
+    {
+        $request->validate([
+            'deskripsi' => 'required',
+            'tingkat' => 'required',
+            'user_id' => 'required',
+
+        ]);
+
+        Skill::create([
+            'deskripsi' => $request->deskripsi,
+            'tingkat' => $request->tingkat,
+            'user_id' => $request->user_id,
+
+        ]);
+
+        return redirect('/emp/resume')->with([
+            'success' => 'Data Diri Berhasil Diubah!'
+        ]);
+    }
+
+    public function bhs(Request $request)
+    {
+        $request->validate([
+            'bhs' => 'required',
+            'spoken' => 'required',
+            'write' => 'required',
+            'user_id' => 'required',
+
+        ]);
+
+        Bahasa::create([
+            'bhs' => $request->bhs,
+            'spoken' => $request->spoken,
+            'write' => $request->write,
+            'user_id' => $request->user_id,
+
+        ]);
+
+        return redirect('/emp/resume')->with([
+            'success' => 'Data Diri Berhasil Diubah!'
+        ]);
+    }
+
+    //halaman Account
+    //
+    //
+    //
+    //
+    //
+    //
+    public function account()
+    {
+        return view('pegawai.akunpeg');
     }
 
     public function updateuser(Request $request)
@@ -165,34 +307,6 @@ class ActivityController extends Controller
 
     }
 
-    public function edu()
-    {
-        return view('pegawai.edu');
-    }
-
-    public function eduadd(Request $request)
-    {
-        $request->validate([
-            'edu_id' => 'required',
-            'instansi' => 'required',
-            'user_id' => 'required',
-
-
-        ]);
-
-        Pendidikan::create([
-            'edu_id' => $request->edu_id,
-            'instansi' => $request->instansi,
-            'user_id' => $request->user_id,
-
-        ]);
-
-        return redirect('/emp/account')->with([
-            'success' => 'Data Diri Berhasil Diubah!'
-        ]);
-
-
-    }
 
     public function sertificate()
     {

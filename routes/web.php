@@ -53,26 +53,63 @@ Route::group(['prefix' => 'emp'], function(){
         'as' => 'posisi-add'
     ]);
 
+    //Resume Page Control
+
+    Route::get('/resume', [
+        'uses' => 'Pegawai\ActivityController@resume',
+        'as' => 'resume-pegawai'
+    ]);
+
+    Route::get('/resume/add', [
+        'uses' => 'Pegawai\ActivityController@add',
+        'as' => 'add-pegawai'
+    ]);
+
+    Route::get('/resume/edit', [
+        'uses' => 'Pegawai\ActivityController@edit',
+        'as' => 'edit-pegawai'
+    ]);
+
+    Route::post('/resume/edit/update', [
+        'uses' => 'Pegawai\ActivityController@update',
+        'as' => 'edit-pegawai-update'
+    ]);
+
+    Route::post('/resume/work/add', [
+        'uses' => 'Pegawai\ActivityController@workadd',
+        'as' => 'work-add'
+    ]);
+
+    Route::get('/resume/edu', [
+        'uses' => 'Pegawai\ActivityController@edu',
+        'as' => 'edu-pegawai'
+    ]);
+
+    Route::post('/resume/edu/add', [
+        'uses' => 'Pegawai\ActivityController@eduadd',
+        'as' => 'edu-add'
+    ]);
+
+    Route::post('/resume/edu/delete', [
+        'uses' => 'Pegawai\ActivityController@edudelete',
+        'as' => 'edu-delete'
+    ]);
+
+    Route::post('/resume/skill/', [
+        'uses' => 'Pegawai\ActivityController@skill',
+        'as' => 'skill-pegawai'
+    ]);
+
+    Route::post('/resume/bhs/', [
+        'uses' => 'Pegawai\ActivityController@bhs',
+        'as' => 'bhs-pegawai'
+    ]);
+
     //Account Page Control
 
     Route::get('/account', [
         'uses' => 'Pegawai\ActivityController@account',
         'as' => 'akun-pegawai'
-    ]);
-
-    Route::get('/account/add', [
-        'uses' => 'Pegawai\ActivityController@add',
-        'as' => 'add-pegawai'
-    ]);
-
-    Route::get('/account/edit', [
-        'uses' => 'Pegawai\ActivityController@edit',
-        'as' => 'edit-pegawai'
-    ]);
-
-    Route::post('/account/edit/update', [
-        'uses' => 'Pegawai\ActivityController@update',
-        'as' => 'edit-pegawai-update'
     ]);
 
     Route::post('/account/add', [
@@ -83,16 +120,6 @@ Route::group(['prefix' => 'emp'], function(){
     Route::post('/update', [
         'uses' => 'Pegawai\ActivityController@updateuser',
         'as' => 'update-pegawai'
-    ]);
-
-    Route::get('/account/edu', [
-        'uses' => 'Pegawai\ActivityController@edu',
-        'as' => 'edu-pegawai'
-    ]);
-
-    Route::post('/account/edu/update', [
-        'uses' => 'Pegawai\ActivityController@eduadd',
-        'as' => 'edu-add'
     ]);
 
     Route::get('/account/certificate', [

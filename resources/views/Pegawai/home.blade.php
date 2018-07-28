@@ -31,7 +31,7 @@
                         <div class="col-lg-12">
                             <div class="alert alert-danger" role="alert">
                                 Segera Lengkapi Biodata Anda!!
-                                <a href="{{route('add-pegawai')}}" class="alert-link">Klik Disini!</a> Untuk Melengkapi
+                                <a href="{{route('resume-pegawai')}}" class="alert-link">Klik Disini!</a> Untuk Melengkapi
                                 Biodata Anda
                             </div>
                         </div>

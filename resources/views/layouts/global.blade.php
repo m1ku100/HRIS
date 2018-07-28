@@ -166,7 +166,7 @@
         <div class="logo">
             <a href="#">
                 <center>
-               <h4>Human Resource Information System</h4>
+                    <h4>Human Resource Information System</h4>
                 </center>
             </a>
         </div>
@@ -199,6 +199,25 @@
                             <li>
                                 <a href="{{route('posisi-pegawai')}}">
                                     <i class="fas fa-table"></i>Posisi Yang Tersedia</a>
+                            </li>
+                            {{--<li class="has-sub">--}}
+                            {{--<a class="js-arrow" href="#">--}}
+                            {{--<i class="fas fa-folder"></i>Resume</a>--}}
+                            {{--<ul class="list-unstyled navbar__sub-list js-sub-list">--}}
+                            {{--<li>--}}
+                            {{--<a href="login.html">Pendidikan</a>--}}
+                            {{--</li>--}}
+                            {{--<li>--}}
+                            {{--<a href="register.html">Pengalaman Kerja</a>--}}
+                            {{--</li>--}}
+                            {{--<li>--}}
+                            {{--<a href="forget-pass.html">Keterampilan Dan Bahasa</a>--}}
+                            {{--</li>--}}
+                            {{--</ul>--}}
+                            {{--</li>--}}
+                            <li>
+                                <a href="{{route('resume-pegawai')}}">
+                                    <i class="fas fa-folder"></i>Resume</a>
                             </li>
                             <li>
                                 <a href="{{route('akun-pegawai')}}">
@@ -255,10 +274,10 @@
                                             </div>
                                         </div>
                                         {{--<div class="account-dropdown__body">--}}
-                                            {{--<div class="account-dropdown__item">--}}
-                                                {{--<a href="#">--}}
-                                                    {{--<i class="zmdi zmdi-account"></i>Account</a>--}}
-                                            {{--</div>--}}
+                                        {{--<div class="account-dropdown__item">--}}
+                                        {{--<a href="#">--}}
+                                        {{--<i class="zmdi zmdi-account"></i>Account</a>--}}
+                                        {{--</div>--}}
                                         {{--</div>--}}
                                         <div class="account-dropdown__footer">
                                             <a href="{{ route('logout') }}"
@@ -308,7 +327,7 @@
 <script>
     $().ready(function () {
         tinymce.init({
-            selector:'.use-tinymce',
+            selector: '.use-tinymce',
             entity_encoding: "raw",
             height: 300,
             theme: 'modern',
@@ -318,8 +337,7 @@
 </script>
 {{--Only Numnber--}}
 <script>
-    function isNumberKey(evt)
-    {
+    function isNumberKey(evt) {
         var charCode = (evt.which) ? evt.which : event.keyCode
         if (charCode > 31 && (charCode < 48 || charCode > 57))
             return false;
@@ -332,15 +350,15 @@
 <!-- Main JS-->
 <script src="{{asset('template/js/main.js')}}"></script>
 
-<script SRC="{{asset('js/lib/datatables/datatables.min.js')}}" ></script>
-<script SRC="{{asset('js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js')}}" ></script>
-<script SRC="{{asset('js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js')}}" ></script>
-<script SRC="{{asset('js/lib/datatables/cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js')}}" ></script>
-<script SRC="{{asset('js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js')}}" ></script>
-<script SRC="{{asset('js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js')}}" ></script>
-<script SRC="{{asset('js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js')}}" ></script>
-<script SRC="{{asset('js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js')}}" ></script>
-<script SRC="{{asset('js/lib/datatables/datatables-init.js')}}" ></script>
+<script SRC="{{asset('js/lib/datatables/datatables.min.js')}}"></script>
+<script SRC="{{asset('js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js')}}"></script>
+<script SRC="{{asset('js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js')}}"></script>
+<script SRC="{{asset('js/lib/datatables/cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js')}}"></script>
+<script SRC="{{asset('js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js')}}"></script>
+<script SRC="{{asset('js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js')}}"></script>
+<script SRC="{{asset('js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js')}}"></script>
+<script SRC="{{asset('js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js')}}"></script>
+<script SRC="{{asset('js/lib/datatables/datatables-init.js')}}"></script>
 
 @stack('js')
 </body>

@@ -12,7 +12,7 @@ class Experience extends Model
     protected $table = 'experience';
 
     protected $fillable = [
-        'id', 'user_id', 'job_title', 'company', 'industri', 'position', 'position_level', 'salary', 'des_pos', 'work_from', 'work_till'
+        'id', 'user_id', 'job_title', 'company', 'industri_id', 'position', 'jenis_gaji', 'salary', 'des_pos', 'work_from', 'work_till'
     ];
 
     protected $dates = ['deleted_at'];

@@ -82,6 +82,7 @@ class JurusanSeeder extends Seeder
         'Teknik Pertambangan',
         'Teknik Perminyakan',
         'Teknik Pertanian',
+        'Lainnya......',
 
     ];
 

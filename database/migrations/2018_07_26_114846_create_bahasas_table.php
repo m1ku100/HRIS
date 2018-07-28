@@ -20,6 +20,7 @@ class CreateBahasasTable extends Migration
             $table->string('bhs');
             $table->integer('spoken');
             $table->integer('write');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

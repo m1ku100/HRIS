@@ -72,7 +72,7 @@
                                             <div class="col-md-4">
                                                 <label for="nf-email" class="form-control-label">Email </label>
                                                 <input type="email" id="nf-email" name="email" value="{{ Auth::user()->email }}"
-                                                       class="form-control">
+                                                       class="form-control disabled" readonly>
                                             </div>
                                         </div>
                                     </div>

@@ -20,8 +20,8 @@ class CreateExperiencesTable extends Migration
             $table->string('job_title');
             $table->string('company');
             $table->string('position');
-            $table->string('industri');
-            $table->string('position_level');
+            $table->string('industri_id');
+            $table->string('jenis_gaji');
             $table->string('salary');
             $table->text('des_pos');
             $table->string('work_from');
