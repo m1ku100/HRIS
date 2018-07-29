@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Manager;
 
 
+use App\Bahasa;
+use App\Experience;
 use App\Lamaran;
+use App\Pendidikan;
 use App\Posisi;
 use App\Sertificate;
+use App\Skill;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -138,7 +142,14 @@ class ActivityController extends Controller
     public function detail(Request $request)
     {
         $user = User::findOrFail(decrypt($request->id));
-        return view('manajer.pelamar', compact('user'));
+
+        $pend = Pendidikan::where('user_id',$user->id)->orderBy('tahun_lulus', 'desc')->get();
+        $work = Experience::where('user_id', $user->id)->orderBy('work_from', 'desc')->get();
+        $skill = Skill::where('user_id', $user->id)->get();
+        $bahasa = Bahasa::where('user_id', $user->id)->get();
+        $serti = Sertificate::where('user_id', $user->id)->get();
+
+        return view('manajer.pelamar', compact('user','pend', 'work', 'skill', 'bahasa', 'serti'));
     }
 
     public function certificate(Request $request)
