@@ -15,19 +15,19 @@
                                 <h3>Posisi Yang Dibutuhkan Saat Ini</h3>
                                 {{--<form>--}}
                                 {{--<div class="rs-select2--light rs-select2--lg">--}}
-                                    {{--<label for="nf-email" class="form-control-label">Start From</label>--}}
-                                    {{--<input type="date" id="nf-email" name="keahlian"--}}
+                                {{--<label for="nf-email" class="form-control-label">Start From</label>--}}
+                                {{--<input type="date" id="nf-email" name="keahlian"--}}
 
-                                           {{--class="form-control">--}}
+                                {{--class="form-control">--}}
                                 {{--</div>--}}
                                 {{--<div class="rs-select2--light rs-select2--lg">--}}
-                                    {{--<label for="nf-email" class="form-control-label">Till</label>--}}
-                                    {{--<input type="date" id="nf-email" name="keahlian"--}}
+                                {{--<label for="nf-email" class="form-control-label">Till</label>--}}
+                                {{--<input type="date" id="nf-email" name="keahlian"--}}
 
-                                           {{--class="form-control">--}}
+                                {{--class="form-control">--}}
                                 {{--</div>--}}
                                 {{--<button class="au-btn-filter">--}}
-                                    {{--<i class="zmdi zmdi-filter-list"></i>filters--}}
+                                {{--<i class="zmdi zmdi-filter-list"></i>filters--}}
                                 {{--</button>--}}
                                 {{--</form>--}}
                             </div>
@@ -61,8 +61,16 @@
                                         <?php
                                         $num++;
                                         ?>
-                                        <td class="desc">{{$pos->nama}}</td>
-                                        <td>{{$pos->created_at->format('D,d M Y')}}</td>
+                                        @if($pos->is_over == true)
+                                            <td colspan="2">
+                                                <div class="alert alert-danger">Posisi <strong>{{$pos->nama}}</strong> Telah Ditutup</div>
+                                            </td>
+                                        @else
+                                            <td class="desc">{{$pos->nama}}</td>
+                                            <td>
+                                                {{$pos->created_at->format('D,d M Y')}}
+                                            </td>
+                                        @endif
                                         <td>
                                             <div class="pull-left">
                                                 <div class="table-data-feature">
@@ -72,6 +80,14 @@
                                                             <i class="zmdi zmdi-edit"></i>
                                                         </button>
                                                     </a>
+                                                    <form action="{{route('posisi-hide')}}" method="post">
+                                                        {{csrf_field()}}
+                                                        <input name="id" value="{{$pos->id}}" type="hidden">
+                                                        <button class="item" data-toggle="tooltip" data-placement="top"
+                                                                title="Tutup Posisi ini" type="submit">
+                                                            <i class="zmdi zmdi-refresh"></i>
+                                                        </button>
+                                                    </form>
                                                     <form action="{{route('posisi-delete')}}" method="post">
                                                         {{csrf_field()}}
                                                         <input name="id" value="{{$pos->id}}" type="hidden">
@@ -80,7 +96,6 @@
                                                             <i class="zmdi zmdi-delete"></i>
                                                         </button>
                                                     </form>
-
                                                     <a href="#" id="show_{{ $pos->id }}">
                                                         <button class="item" data-toggle="tooltip" data-placement="top"
                                                                 title="Selengkapnya">

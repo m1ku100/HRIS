@@ -24,7 +24,7 @@
                                         <i class="zmdi zmdi-info"></i>
                                     </div>
                                     <div class="text">
-                                        <h2>{{App\Lamaran::where('created_at','<=',today())->count()}}</h2>
+                                        <h2>{{App\Lamaran::where('created_at','>=',today())->count()}}</h2>
                                         <span>Lamaran Masuk Hari Ini</span>
                                     </div>
                                 </div>

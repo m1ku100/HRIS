@@ -56,6 +56,19 @@ class ActivityController extends Controller
 
     }
 
+    public function hide(Request $request)
+    {
+        $this->validate($request, [
+            'id' => 'required',
+        ]);
+
+        $posisi = Posisi::find($request->id);
+        $posisi->update([
+            'is_over' => true,
+        ]);
+        return back()->with('success', '');
+    }
+
     public function posisidelete(Request $request)
     {
         $this->validate($request, [

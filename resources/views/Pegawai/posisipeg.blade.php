@@ -148,6 +148,9 @@
                                     @endforeach
                                     </tbody>
                                 </table>
+                                <div class="filters m-b-45">
+                                    {{ $posisi->links() }}
+                                </div>
                             </div>
                         @endif
 

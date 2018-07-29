@@ -212,6 +212,11 @@ Route::group(['prefix' => 'manajer'], function () {
         'as' => 'posisi-save'
     ]);
 
+    Route::post('/posisi/form/hide', [
+        'uses' => 'Manager\ActivityController@hide',
+        'as' => 'posisi-hide'
+    ]);
+
     Route::post('/posisi/form/delete', [
         'uses' => 'Manager\ActivityController@posisidelete',
         'as' => 'posisi-delete'

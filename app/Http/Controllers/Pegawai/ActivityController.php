@@ -39,7 +39,7 @@ class ActivityController extends Controller
     //halaman Posisi
     public function posisi()
     {
-        $posisi = Posisi::orderBy('created_at', 'DESC')->get();
+        $posisi = Posisi::orderBy('created_at', 'DESC')->where('is_over',false)->paginate(10);
         return view('pegawai.posisipeg', compact('posisi'));
     }
 
