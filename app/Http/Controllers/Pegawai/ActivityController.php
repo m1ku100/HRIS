@@ -462,6 +462,24 @@ class ActivityController extends Controller
         ]);
     }
 
+    public function sertificateupdate(Request $request)
+    {
+        $serti = Sertificate::find($request->id);
+
+        $serti->update([
+            'keahlian' => $request->keahlian,
+            'setifikat' => $request->setifikat,
+            'ket_setifikat' => $request->ket_setifikat,
+            'dir_lama' => $request->dir_lama,
+            'user_id' => $request->user_id,
+
+        ]);
+
+        return redirect('/emp/resume')->with([
+            'success' => 'Data Diri Berhasil Diubah!'
+        ]);
+    }
+
     public function sertificatedelete(Request $request)
     {
         $ser = Sertificate::find($request->id);

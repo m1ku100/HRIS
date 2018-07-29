@@ -641,33 +641,51 @@
                                                                         style="display: none">
                                                                         <td colspan="4">
 
-                                                                            <form action="{{route('bhs-update')}}" method="post">
+                                                                            <form action="{{route('bhs-update')}}"
+                                                                                  method="post">
                                                                                 {{csrf_field()}}
                                                                                 <div class="form-group">
                                                                                     <div class="row">
                                                                                         <div class="col-md-6">
                                                                                             <label for="nf-email"
                                                                                                    class="form-control-label">Bahasa </label>
-                                                                                            <select class="form-control" name="bhs">
+                                                                                            <select class="form-control"
+                                                                                                    name="bhs">
                                                                                                 <option value="{{$bhs->bhs}}">{{$bhs->bhs}}</option>
-                                                                                                <option value="Indonesia">Indonesia
+                                                                                                <option value="Indonesia">
+                                                                                                    Indonesia
                                                                                                 </option>
-                                                                                                <option value="English">English</option>
-                                                                                                <option value="Dutch">Dutch</option>
-                                                                                                <option value="German">German</option>
-                                                                                                <option value="Japanese">Japanese
+                                                                                                <option value="English">
+                                                                                                    English
                                                                                                 </option>
-                                                                                                <option value="French">French</option>
-                                                                                                <option value="Chinese">Chinese</option>
+                                                                                                <option value="Dutch">
+                                                                                                    Dutch
+                                                                                                </option>
+                                                                                                <option value="German">
+                                                                                                    German
+                                                                                                </option>
+                                                                                                <option value="Japanese">
+                                                                                                    Japanese
+                                                                                                </option>
+                                                                                                <option value="French">
+                                                                                                    French
+                                                                                                </option>
+                                                                                                <option value="Chinese">
+                                                                                                    Chinese
+                                                                                                </option>
                                                                                             </select>
-                                                                                            <input value="{{$bhs->id}}" name="id" type="hidden">
-                                                                                            <input type="hidden" name="user_id"
+                                                                                            <input value="{{$bhs->id}}"
+                                                                                                   name="id"
+                                                                                                   type="hidden">
+                                                                                            <input type="hidden"
+                                                                                                   name="user_id"
                                                                                                    value="{{ Auth::user()->id }}">
                                                                                         </div>
                                                                                         <div class="col-md-3">
                                                                                             <label for="nf-email"
                                                                                                    class="form-control-label">Berbicara </label>
-                                                                                            <select class="form-control" name="spoken">
+                                                                                            <select class="form-control"
+                                                                                                    name="spoken">
                                                                                                 <option value="{{$bhs->spoken}}">{{$bhs->spoken}}</option>
                                                                                                 @for($a=1;$a<11;$a++)
                                                                                                     <option value="{{$a}}">{{$a}}</option>
@@ -677,7 +695,8 @@
                                                                                         <div class="col-md-3">
                                                                                             <label for="nf-email"
                                                                                                    class="form-control-label">Menulis </label>
-                                                                                            <select class="form-control" name="write">
+                                                                                            <select class="form-control"
+                                                                                                    name="write">
                                                                                                 <option value="{{$bhs->write}}">{{$bhs->write}}</option>
                                                                                                 @for($a=1;$a<11;$a++)
                                                                                                     <option value="{{$a}}">{{$a}}</option>
@@ -689,7 +708,8 @@
                                                                                 <div class="form-group">
                                                                                     <button type="submit"
                                                                                             class="btn btn-primary btn-md">
-                                                                                        <i class="fa fa-refresh"></i>Perbarui Bahasa
+                                                                                        <i class="fa fa-refresh"></i>Perbarui
+                                                                                        Bahasa
                                                                                     </button>
                                                                                 </div>
                                                                             </form>
@@ -807,12 +827,15 @@
                                                                         <td>
                                                                             <div class="pull-left">
                                                                                 <div class="table-data-feature">
-                                                                                    <button class="btn btn-info"
-                                                                                            data-toggle="tooltip"
-                                                                                            data-placement="top"
-                                                                                            title="Edit Data Sertifikat">
-                                                                                        <i class="zmdi zmdi-edit"></i>
-                                                                                    </button>
+                                                                                    <a href="#"
+                                                                                       id="shoh_{{ $sert->id }}">
+                                                                                        <button class="btn btn-info"
+                                                                                                data-toggle="tooltip"
+                                                                                                data-placement="top"
+                                                                                                title="Edit Data Sertifikat">
+                                                                                            <i class="zmdi zmdi-edit"></i>
+                                                                                        </button>
+                                                                                    </a>
                                                                                     <form action="{{route('sertificate-delete')}}"
                                                                                           method="post"
                                                                                           style="margin-left: 5pt">
@@ -831,6 +854,70 @@
                                                                             </div>
                                                                         </td>
                                                                     </tr>
+                                                                    <tr id="ektra_{{ $sert->id }}" class="tr-shadow"
+                                                                        style="display: none">
+                                                                        <td colspan="3">
+
+                                                                            <form action="{{route('sertificate-update')}}" method="post"
+                                                                                  class="" enctype="multipart/form-data">
+                                                                                {{ csrf_field() }}
+                                                                                <div class="card-body card-block">
+                                                                                    <div class="form-group">
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-6">
+                                                                                                <label for="nf-email"
+                                                                                                       class="form-control-label">Keahlian</label>
+                                                                                                <input type="text" id="nf-email"
+                                                                                                       name="keahlian"
+                                                                                                       placeholder="Jenis Keahlian Dari Sertifikat yang Akan Anda Upload...."
+                                                                                                       class="form-control" value="{{$sert->keahlian}}">
+                                                                                            </div>
+                                                                                            <div class="col-md-6">
+                                                                                                <label for="nf-email"
+                                                                                                       class="form-control-label">Nama
+                                                                                                    Setifikat</label>
+                                                                                                <input type="text" id="nf-email"
+                                                                                                       name="setifikat"
+                                                                                                       placeholder="Nama Sertifikat yang Akan Anda Upload...."
+                                                                                                       class="form-control" value="{{$sert->setifikat}}">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group">
+                                                                                        <label for="nf-email" class="form-control-label">Keterangan
+                                                                                            Dari Sertifikat</label>
+                                                                                        <textarea class="form-control use-tinymce"
+                                                                                                  name="ket_setifikat"
+                                                                                                  placeholder="Deskripsi Posisi yang Dibutuhkan...."> {!! $sert->ket_setifikat !!} </textarea>
+                                                                                    </div>
+                                                                                    <div class="form-group">
+                                                                                        <label for="nf-email" class="form-control-label">File
+                                                                                            Sertifikat
+                                                                                            <small>(Max. 2mb. Format .jpg/.jpeg/.png)
+                                                                                            </small>
+                                                                                        </label>
+                                                                                        <img src="{{asset('storage/'.$sert->dir_setifikat)}}">
+                                                                                        <input type="hidden" name="dir_lama" value="{{$sert->dir_setifikat}}">
+                                                                                        <input type="file" id="nf-email"
+                                                                                               name="dir_setifikat"
+                                                                                               class="form-control" readonly>
+                                                                                        <input type="hidden" name="user_id"
+                                                                                               value="{{ Auth::user()->id }}">
+                                                                                        <input type="hidden" name="id"
+                                                                                               value="{{ $sert->id }}">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="card-footer">
+                                                                                    <button type="submit" class="btn btn-primary btn-md">
+                                                                                        <i class="fa fa-upload"></i> Upload
+                                                                                    </button>
+
+                                                                                </div>
+                                                                            </form>
+
+                                                                        </td>
+                                                                    </tr>
+
                                                                 @endforeach
                                                                 </thead>
                                                             </table>
@@ -852,6 +939,11 @@
 @endsection
 @push('js')
     <script>
+
+        $("a[id^=shoh_]").click(function (event) {
+            $("#ektra_" + $(this).attr('id').substr(5)).toggle();
+            event.preventDefault();
+        });
 
         $("a[id^=show_]").click(function (event) {
             $("#extra_" + $(this).attr('id').substr(5)).toggle();

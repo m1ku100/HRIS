@@ -155,6 +155,11 @@ Route::group(['prefix' => 'emp'], function(){
         'as' => 'sertificate-add'
     ]);
 
+    Route::post('/resume/certificate/update', [
+        'uses' => 'Pegawai\ActivityController@sertificateupdate',
+        'as' => 'sertificate-update'
+    ]);
+
     Route::post('/resume/certificate/delete', [
         'uses' => 'Pegawai\ActivityController@sertificatedelete',
         'as' => 'sertificate-delete'
