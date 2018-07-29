@@ -31,6 +31,11 @@
                                         <a class="nav-link" id="skill-tab" data-toggle="tab" href="#skill" role="tab"
                                            aria-controls="contact" aria-selected="false">Skill And Language</a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="certificate-tab" data-toggle="tab" href="#certificate"
+                                           role="tab"
+                                           aria-controls="contact" aria-selected="false">Certificate</a>
+                                    </li>
                                 </ul>
                                 <div class="tab-content pl-3 p-1" id="myTabContent">
 
@@ -102,7 +107,7 @@
                                          aria-labelledby="profile-tab">
                                         <br>
                                         <h3><i class="fas fa-suitcase"></i> Pengalaman Bekerja Anda</h3>
-                                        @if(App\Experience::where('user_id',Auth::user()->id)->count() > 1 )
+                                        @if(App\Experience::where('user_id',Auth::user()->id)->count()  < 1 )
                                         @else
                                             <a href="{{route('edu-pegawai')}}" class="pull-right">
                                                 <button class="btn btn-primary btn-sm rounded pull-right"><span
@@ -256,13 +261,15 @@
                                                             <td>
                                                                 <div class="pull-left">
                                                                     <div class="table-data-feature">
-                                                                        <button class="btn btn-info"
-                                                                                data-toggle="tooltip"
-                                                                                data-placement="top"
-                                                                                title="Edit Data Pekerjaan">
-                                                                            <i class="zmdi zmdi-edit"></i>
-                                                                        </button>
-                                                                        <form action="{{route('edu-delete')}}"
+                                                                        <a href="{{route('work-edit',['id' =>  $es = encrypt($works->id)])}}">
+                                                                            <button class="btn btn-info"
+                                                                                    data-toggle="tooltip"
+                                                                                    data-placement="top"
+                                                                                    title="Edit Data Pekerjaan">
+                                                                                <i class="zmdi zmdi-edit"></i>
+                                                                            </button>
+                                                                        </a>
+                                                                        <form action="{{route('work-delete')}}"
                                                                               method="post"
                                                                               style="margin-left: 5pt">
                                                                             {{csrf_field()}}
@@ -334,12 +341,14 @@
                                                             <td>
                                                                 <div class="pull-left">
                                                                     <div class="table-data-feature">
-                                                                        <button class="btn btn-info"
-                                                                                data-toggle="tooltip"
-                                                                                data-placement="top"
-                                                                                title="Edit Data pendidikan">
-                                                                            <i class="zmdi zmdi-edit"></i>
-                                                                        </button>
+                                                                        <a href="{{route('edu-edit',['id' =>  $es = encrypt($pendidikan->id)])}}">
+                                                                            <button class="btn btn-info"
+                                                                                    data-toggle="tooltip"
+                                                                                    data-placement="top"
+                                                                                    title="Edit Data pendidikan">
+                                                                                <i class="zmdi zmdi-edit"></i>
+                                                                            </button>
+                                                                        </a>
                                                                         <form action="{{route('edu-delete')}}"
                                                                               method="post" style="margin-left: 5pt">
                                                                             {{csrf_field()}}
@@ -422,6 +431,7 @@
                                                                 <tr>
                                                                     <td></td>
                                                                     <td></td>
+                                                                    <td></td>
 
                                                                 </tr>
                                                                 </thead>
@@ -430,6 +440,32 @@
                                                                     <tr>
                                                                         <td><p>{{$skills->tingkat}}</p></td>
                                                                         <td><h4>{{$skills->deskripsi}}</h4></td>
+                                                                        <td>
+                                                                            <div class="pull-left">
+                                                                                <div class="table-data-feature">
+                                                                                    <button class="btn btn-info"
+                                                                                            data-toggle="tooltip"
+                                                                                            data-placement="top"
+                                                                                            title="Edit Data Keahlian">
+                                                                                        <i class="zmdi zmdi-edit"></i>
+                                                                                    </button>
+                                                                                    <form action="{{route('skill-delete')}}"
+                                                                                          method="post"
+                                                                                          style="margin-left: 5pt">
+                                                                                        {{csrf_field()}}
+                                                                                        <input type="hidden" name="id"
+                                                                                               value="{{$skills->id}}">
+                                                                                        <button class="btn  btn-danger"
+                                                                                                data-toggle="tooltip"
+                                                                                                data-placement="top"
+                                                                                                title="Hapus Data Keahlian"
+                                                                                                type="submit">
+                                                                                            <i class="zmdi zmdi-delete"></i>
+                                                                                        </button>
+                                                                                    </form>
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
                                                                     </tr>
                                                                 @endforeach
                                                                 </tbody>
@@ -503,6 +539,7 @@
                                                                     <td>Bahasa</td>
                                                                     <td>Berbicara</td>
                                                                     <td>Tulis</td>
+                                                                    <td></td>
 
                                                                 </tr>
                                                                 </thead>
@@ -512,9 +549,170 @@
                                                                         <td><h4>{{$bhs->bhs}}</h4></td>
                                                                         <td><h4>{{$bhs->spoken}}</h4></td>
                                                                         <td><h4>{{$bhs->write}}</h4></td>
+                                                                        <td>
+                                                                            <div class="pull-left">
+                                                                                <div class="table-data-feature">
+                                                                                    <button class="btn btn-info"
+                                                                                            data-toggle="tooltip"
+                                                                                            data-placement="top"
+                                                                                            title="Edit Data Bahasa">
+                                                                                        <i class="zmdi zmdi-edit"></i>
+                                                                                    </button>
+                                                                                    <form action="{{route('bhs-delete')}}"
+                                                                                          method="post"
+                                                                                          style="margin-left: 5pt">
+                                                                                        {{csrf_field()}}
+                                                                                        <input type="hidden" name="id"
+                                                                                               value="{{$bhs->id}}">
+                                                                                        <button class="btn  btn-danger"
+                                                                                                data-toggle="tooltip"
+                                                                                                data-placement="top"
+                                                                                                title="Hapus Data Bahasa"
+                                                                                                type="submit">
+                                                                                            <i class="zmdi zmdi-delete"></i>
+                                                                                        </button>
+                                                                                    </form>
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
                                                                     </tr>
                                                                 @endforeach
                                                                 </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{--Tab Certificate--}}
+                                    <div class="tab-pane fade" id="certificate" role="tabpanel"
+                                         aria-labelledby="contact-tab">
+                                        <br>
+                                        <h3><i class="fas fa-file"></i> Sertifikat</h3>
+                                        <p></p>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="card shadow">
+                                                    <div class="card-header">
+                                                        <i class="fa fa-file-text"></i>
+                                                        <strong class="card-title pl-2">certificate Data Form</strong>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <form action="{{route('sertificate-add')}}" method="post"
+                                                              class="" enctype="multipart/form-data">
+                                                            {{ csrf_field() }}
+                                                            <div class="card-body card-block">
+                                                                <div class="form-group">
+                                                                    <div class="row">
+                                                                        <div class="col-md-6">
+                                                                            <label for="nf-email"
+                                                                                   class="form-control-label">Keahlian</label>
+                                                                            <input type="text" id="nf-email"
+                                                                                   name="keahlian"
+                                                                                   placeholder="Jenis Keahlian Dari Sertifikat yang Akan Anda Upload...."
+                                                                                   class="form-control">
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <label for="nf-email"
+                                                                                   class="form-control-label">Nama
+                                                                                Setifikat</label>
+                                                                            <input type="text" id="nf-email"
+                                                                                   name="setifikat"
+                                                                                   placeholder="Nama Sertifikat yang Akan Anda Upload...."
+                                                                                   class="form-control">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="nf-email" class="form-control-label">Keterangan
+                                                                        Dari Sertifikat</label>
+                                                                    <textarea class="form-control use-tinymce"
+                                                                              name="ket_setifikat"
+                                                                              placeholder="Deskripsi Posisi yang Dibutuhkan...."> </textarea>
+                                                                    {{--<input type="email" id="nf-email" name="nf-email" placeholder="Enter Email.."--}}
+                                                                    {{--class="form-control" >--}}
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="nf-email" class="form-control-label">File
+                                                                        Sertifikat
+                                                                        <small>(Max. 2mb. Format .jpg/.jpeg/.png)
+                                                                        </small>
+                                                                    </label>
+                                                                    <input type="file" id="nf-email"
+                                                                           name="dir_setifikat"
+                                                                           class="form-control" readonly>
+                                                                    <input type="hidden" name="user_id"
+                                                                           value="{{ Auth::user()->id }}">
+                                                                </div>
+                                                            </div>
+                                                            <div class="card-footer">
+                                                                <button type="submit" class="btn btn-primary btn-md">
+                                                                    <i class="fa fa-upload"></i> Upload
+                                                                </button>
+
+                                                            </div>
+                                                        </form>
+                                                        <small class="card-text">*Form Ini Bersifat Optinal
+                                                            tetapi apabila Anda memiliki Keterampilan Tertentu , kami
+                                                            sarankan agar Anda memasukkannya disini.
+                                                        </small>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="card shadow">
+                                                    <div class="card-header">
+                                                        <strong class="card-title">Sertifikat Yang Anda Miliki</strong>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="table-responsive table-responsive-data2">
+                                                            <table class="table table-data2">
+                                                                <thead>
+                                                                <tr>
+                                                                    <td><h5>Sertifikat</h5></td>
+                                                                    <td><h5>Deskripsi</h5></td>
+                                                                    <td><h5>Action</h5></td>
+
+                                                                </tr>
+                                                                </thead>
+                                                                <thead>
+                                                                @foreach($serti as $sert)
+                                                                    <tr>
+                                                                        <td>{{$sert->keahlian}}</td>
+                                                                        <td>{!! $sert->ket_setifikat !!}</td>
+                                                                        <td>
+                                                                            <div class="pull-left">
+                                                                                <div class="table-data-feature">
+                                                                                    <button class="btn btn-info"
+                                                                                            data-toggle="tooltip"
+                                                                                            data-placement="top"
+                                                                                            title="Edit Data Sertifikat">
+                                                                                        <i class="zmdi zmdi-edit"></i>
+                                                                                    </button>
+                                                                                    <form action="{{route('sertificate-delete')}}"
+                                                                                          method="post"
+                                                                                          style="margin-left: 5pt">
+                                                                                        {{csrf_field()}}
+                                                                                        <input type="hidden" name="id"
+                                                                                               value="{{$sert->id}}">
+                                                                                        <button class="btn  btn-danger"
+                                                                                                data-toggle="tooltip"
+                                                                                                data-placement="top"
+                                                                                                title="Hapus Data Sertifikat"
+                                                                                                type="submit">
+                                                                                            <i class="zmdi zmdi-delete"></i>
+                                                                                        </button>
+                                                                                    </form>
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                @endforeach
+                                                                </thead>
                                                             </table>
                                                         </div>
                                                     </div>

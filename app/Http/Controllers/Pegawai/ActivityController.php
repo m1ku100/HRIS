@@ -67,11 +67,12 @@ class ActivityController extends Controller
 
     public function resume()
     {
-        $pend = Pendidikan::where('user_id',Auth::user()->id)->orderBy('tahun_lulus','desc')->get();
-        $work = Experience::where('user_id',Auth::user()->id)->orderBy('work_from','desc')->get();
-        $skill = Skill::where('user_id',Auth::user()->id)->get();
-        $bahasa = Bahasa::where('user_id',Auth::user()->id)->get();
-        return view('pegawai.resume',compact('pend','work','skill','bahasa'));
+        $pend = Pendidikan::where('user_id', Auth::user()->id)->orderBy('tahun_lulus', 'desc')->get();
+        $work = Experience::where('user_id', Auth::user()->id)->orderBy('work_from', 'desc')->get();
+        $skill = Skill::where('user_id', Auth::user()->id)->get();
+        $bahasa = Bahasa::where('user_id', Auth::user()->id)->get();
+        $serti = Sertificate::where('user_id', Auth::user()->id)->get();
+        return view('pegawai.resume', compact('pend', 'work', 'skill', 'bahasa', 'serti'));
     }
 
     public function add()
@@ -182,6 +183,46 @@ class ActivityController extends Controller
         ]);
     }
 
+    public function workedit(Request $request)
+    {
+        $exp = Experience::findOrFail(decrypt($request->id));
+        return view('pegawai.editwork', compact('exp'));
+    }
+
+    public function workupdate(Request $request)
+    {
+        $exp = Experience::find($request->id);
+
+       $exp->update([
+            'job_title' => $request->job_title,
+            'company' => $request->company,
+            'industri_id' => $request->industri_id,
+            'position' => $request->position,
+            'salary' => $request->salary,
+            'jenis_gaji' => $request->jenis_gaji,
+            'des_pos' => $request->des_pos,
+            'email' => $request->email,
+            'work_from' => $request->work_from,
+            'work_till' => $request->work_till,
+            'user_id' => $request->user_id,
+        ]);
+
+        return redirect('/emp/resume')->with([
+            'success' => 'Data Diri Berhasil Diubah!'
+        ]);
+
+    }
+
+    public function workdelete(Request $request)
+    {
+        $exp = Experience::find($request->id);
+        $exp->delete();
+
+        return back()->with([
+            'success' => 'Berhasil Memperbarui Profile !'
+        ]);
+    }
+
     public function edu()
     {
 
@@ -201,6 +242,31 @@ class ActivityController extends Controller
         ]);
 
         Pendidikan::create([
+            'edu_id' => $request->edu_id,
+            'instansi' => $request->instansi,
+            'user_id' => $request->user_id,
+            'negara_id' => $request->negara_id,
+            'tahun_lulus' => $request->tahun_lulus,
+            'ipk' => $request->ipk,
+            'jurusan' => $request->jurusan,
+        ]);
+
+        return redirect('/emp/resume')->with([
+            'success' => 'Data Diri Berhasil Diubah!'
+        ]);
+    }
+
+    public function eduedit(Request $request)
+    {
+        $pend = Pendidikan::findOrFail(decrypt($request->id));
+        return view('pegawai.eduedit', compact('pend'));
+    }
+
+    public function eduupdate(Request $request)
+    {
+        $pend = Pendidikan::find($request->id);
+
+        $pend->update([
             'edu_id' => $request->edu_id,
             'instansi' => $request->instansi,
             'user_id' => $request->user_id,
@@ -246,6 +312,16 @@ class ActivityController extends Controller
         ]);
     }
 
+    public function skilldelete(Request $request)
+    {
+        $skill = Skill::find($request->id);
+        $skill->delete();
+
+        return back()->with([
+            'success' => 'Berhasil Memperbarui Profile !'
+        ]);
+    }
+
     public function bhs(Request $request)
     {
         $request->validate([
@@ -266,6 +342,16 @@ class ActivityController extends Controller
 
         return redirect('/emp/resume')->with([
             'success' => 'Data Diri Berhasil Diubah!'
+        ]);
+    }
+
+    public function bhsdelete(Request $request)
+    {
+        $bhs = Bahasa::find($request->id);
+        $bhs->delete();
+
+        return back()->with([
+            'success' => 'Berhasil Memperbarui Profile !'
         ]);
     }
 
@@ -338,8 +424,18 @@ class ActivityController extends Controller
             $berkas->save();
             $dir = $fillnames2;
         }
-        return redirect('/emp/account')->with([
+        return redirect('/emp/resume')->with([
             'success' => 'Data Diri Berhasil Diubah!'
+        ]);
+    }
+
+    public function sertificatedelete(Request $request)
+    {
+        $ser = Sertificate::find($request->id);
+        $ser->delete();
+
+        return back()->with([
+            'success' => 'Berhasil Memperbarui Profile !'
         ]);
     }
 

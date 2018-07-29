@@ -23,8 +23,8 @@ class CreatePendidikanTable extends Migration
             $table->string('jurusan')->nullable();
             $table->integer('negara_id')->unsigned();
             $table->foreign('negara_id')->references('id')->on('negara')->onUpdate('CASCADE');
-            $table->string('tahun_lulus');
-            $table->string('ipk');
+            $table->string('tahun_lulus')->nullable();
+            $table->string('ipk')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

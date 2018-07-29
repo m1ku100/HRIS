@@ -80,6 +80,21 @@ Route::group(['prefix' => 'emp'], function(){
         'as' => 'work-add'
     ]);
 
+    Route::get('/resume/work/{id}', [
+        'uses' => 'Pegawai\ActivityController@workedit',
+        'as' => 'work-edit'
+    ]);
+
+    Route::post('/resume/work/upate', [
+        'uses' => 'Pegawai\ActivityController@workupdate',
+        'as' => 'work-update'
+    ]);
+
+    Route::post('/resume/work/delete', [
+        'uses' => 'Pegawai\ActivityController@workdelete',
+        'as' => 'work-delete'
+    ]);
+
     Route::get('/resume/edu', [
         'uses' => 'Pegawai\ActivityController@edu',
         'as' => 'edu-pegawai'
@@ -88,6 +103,16 @@ Route::group(['prefix' => 'emp'], function(){
     Route::post('/resume/edu/add', [
         'uses' => 'Pegawai\ActivityController@eduadd',
         'as' => 'edu-add'
+    ]);
+
+    Route::get('/resume/edu/{id}', [
+        'uses' => 'Pegawai\ActivityController@eduedit',
+        'as' => 'edu-edit'
+    ]);
+
+    Route::post('/resume/edu/upate', [
+        'uses' => 'Pegawai\ActivityController@eduupdate',
+        'as' => 'edu-update'
     ]);
 
     Route::post('/resume/edu/delete', [
@@ -100,9 +125,29 @@ Route::group(['prefix' => 'emp'], function(){
         'as' => 'skill-pegawai'
     ]);
 
+    Route::post('/resume/skill/delete', [
+        'uses' => 'Pegawai\ActivityController@skilldelete',
+        'as' => 'skill-delete'
+    ]);
+
     Route::post('/resume/bhs/', [
         'uses' => 'Pegawai\ActivityController@bhs',
         'as' => 'bhs-pegawai'
+    ]);
+
+    Route::post('/resume/bhs/delete', [
+        'uses' => 'Pegawai\ActivityController@bhsdelete',
+        'as' => 'bhs-delete'
+    ]);
+
+    Route::post('/resume/certificate/add', [
+        'uses' => 'Pegawai\ActivityController@sertificateadd',
+        'as' => 'sertificate-add'
+    ]);
+
+    Route::post('/resume/certificate/delete', [
+        'uses' => 'Pegawai\ActivityController@sertificatedelete',
+        'as' => 'sertificate-delete'
     ]);
 
     //Account Page Control
@@ -127,10 +172,6 @@ Route::group(['prefix' => 'emp'], function(){
         'as' => 'sertificate-pegawai'
     ]);
 
-    Route::post('/account/certificate/add', [
-        'uses' => 'Pegawai\ActivityController@sertificateadd',
-        'as' => 'sertificate-add'
-    ]);
 
 });
 

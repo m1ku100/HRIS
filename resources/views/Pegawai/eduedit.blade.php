@@ -26,7 +26,7 @@
                         @endif
 
                         <div class="card">
-                            <form action="{{route('edu-add')}}" method="post" class="">
+                            <form action="{{route('edu-update')}}" method="post" class="">
                                 {{ csrf_field() }}
                                 <div class="card-header">
                                     <i class="fa fa-file-text"></i>
@@ -39,7 +39,7 @@
                                                 <label for="nf-email" class="form-control-label">Jenjang
                                                     Pendidikan </label>
                                                 <select name="edu_id" id="select" class="form-control">
-
+                                                    <option value="{{$pend->edu_id}}">{{App\Edu::find($pend->edu_id)->jenjang}}</option>
                                                     @foreach(App\Edu::all() as $edu)
                                                         <option value="{{$edu->id}}">{{$edu->jenjang}}</option>
                                                     @endforeach
@@ -49,8 +49,9 @@
                                                 <label for="nf-email" class="form-control-label">Nama Institusi </label>
                                                 <input type="text" id="nf-email" name="instansi"
                                                        placeholder="Nama Instansi Pendidikan yang Anda Tempuh...."
-                                                       class="form-control">
+                                                       class="form-control" value="{{ $pend->instansi }}">
                                                 <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                                                <input type="hidden" name="id" value="{{ $pend->id }}">
                                             </div>
                                         </div>
                                     </div>
@@ -59,6 +60,7 @@
                                             <div class="col-md-6">
                                                 <label for="nf-email" class="form-control-label">Jurusan</label>
                                                 <select name="jurusan" id="select" class="form-control">
+                                                    <option value="{{App\Jurusan::find($pend->jurusan)->id}}">{{App\Jurusan::find($pend->jurusan)->name}}</option>
                                                     @foreach(App\Jurusan::all() as $jurusan)
                                                         <option value="{{$jurusan->id}}">{{$jurusan->name}}</option>
                                                     @endforeach
@@ -67,6 +69,7 @@
                                             <div class="col-md-6">
                                                 <label for="nf-email" class="form-control-label">Lokasi </label>
                                                 <select name="negara_id" id="select" class="form-control">
+                                                    <option value="{{App\Negara::find($pend->negara_id)->id}}">{{App\Negara::find($pend->negara_id)->nama}}</option>
                                                     @foreach(App\Negara::all() as $negara)
                                                         <option value="{{$negara->id}}">{{$negara->nama}}</option>
                                                     @endforeach
@@ -81,7 +84,7 @@
                                                 <input type="text" name="tahun_lulus"
                                                        onkeypress="return isNumberKey(event)"
                                                        placeholder="Tahun Lulus Pendidikan Anda..."
-                                                       class="form-control">
+                                                       class="form-control" value="{{ $pend->tahun_lulus }}">
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="nf-email" class="form-control-label">Nilai Kelulusan
@@ -89,8 +92,8 @@
                                                 </label>
                                                 <input type="text" name="ipk"
                                                        placeholder=""
-                                                       class="form-control"  id="snack" >
-
+                                                       class="form-control"  id="snack" value="{{ $pend->ipk }}" >
+                                               
                                             </div>
 
                                         </div>
@@ -99,7 +102,6 @@
                                         <button type="submit" class="btn btn-primary btn-md">
                                             <i class="fa fa-dot-circle-o"></i> Submit
                                         </button>
-
                                     </div>
                                 </div>
                             </form>
