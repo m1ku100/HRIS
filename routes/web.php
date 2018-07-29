@@ -125,6 +125,11 @@ Route::group(['prefix' => 'emp'], function(){
         'as' => 'skill-pegawai'
     ]);
 
+    Route::post('/resume/skill/upate', [
+        'uses' => 'Pegawai\ActivityController@skillupdate',
+        'as' => 'skill-update'
+    ]);
+
     Route::post('/resume/skill/delete', [
         'uses' => 'Pegawai\ActivityController@skilldelete',
         'as' => 'skill-delete'
@@ -133,6 +138,11 @@ Route::group(['prefix' => 'emp'], function(){
     Route::post('/resume/bhs/', [
         'uses' => 'Pegawai\ActivityController@bhs',
         'as' => 'bhs-pegawai'
+    ]);
+
+    Route::post('/resume/bhs/upate', [
+        'uses' => 'Pegawai\ActivityController@bhsupdate',
+        'as' => 'bhs-update'
     ]);
 
     Route::post('/resume/bhs/delete', [

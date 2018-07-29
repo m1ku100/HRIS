@@ -312,6 +312,21 @@ class ActivityController extends Controller
         ]);
     }
 
+    public function skillupdate(Request $request)
+    {
+        $skill = Skill::find($request->id);
+
+        $skill->update([
+            'deskripsi' => $request->deskripsi,
+            'tingkat' => $request->tingkat,
+            'user_id' => $request->user_id,
+        ]);
+
+        return redirect('/emp/resume')->with([
+            'success' => 'Data Diri Berhasil Diubah!'
+        ]);
+    }
+
     public function skilldelete(Request $request)
     {
         $skill = Skill::find($request->id);
@@ -339,6 +354,24 @@ class ActivityController extends Controller
             'user_id' => $request->user_id,
 
         ]);
+
+        return redirect('/emp/resume')->with([
+            'success' => 'Data Diri Berhasil Diubah!'
+        ]);
+    }
+
+    public function bhsupdate(Request $request)
+    {
+        $bhs = Bahasa::find($request->id);
+
+        $bhs->update([
+            'bhs' => $request->bhs,
+            'spoken' => $request->spoken,
+            'write' => $request->write,
+            'user_id' => $request->user_id,
+
+        ]);
+
 
         return redirect('/emp/resume')->with([
             'success' => 'Data Diri Berhasil Diubah!'

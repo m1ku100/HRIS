@@ -371,7 +371,6 @@
                                                 </table>
                                             </div>
                                         </center>
-
                                     </div>
 
                                     {{--Tab Skill --}}
@@ -443,12 +442,15 @@
                                                                         <td>
                                                                             <div class="pull-left">
                                                                                 <div class="table-data-feature">
-                                                                                    <button class="btn btn-info"
-                                                                                            data-toggle="tooltip"
-                                                                                            data-placement="top"
-                                                                                            title="Edit Data Keahlian">
-                                                                                        <i class="zmdi zmdi-edit"></i>
-                                                                                    </button>
+                                                                                    <a href="#"
+                                                                                       id="show_{{ $skills->id }}">
+                                                                                        <button class="btn btn-info"
+                                                                                                data-toggle="tooltip"
+                                                                                                data-placement="top"
+                                                                                                title="Edit Data Keahlian">
+                                                                                            <i class="zmdi zmdi-edit"></i>
+                                                                                        </button>
+                                                                                    </a>
                                                                                     <form action="{{route('skill-delete')}}"
                                                                                           method="post"
                                                                                           style="margin-left: 5pt">
@@ -466,6 +468,62 @@
                                                                                 </div>
                                                                             </div>
                                                                         </td>
+                                                                    </tr>
+                                                                    <tr id="extra_{{ $skills->id }}" class="tr-shadow"
+                                                                        style="display: none">
+                                                                        <td colspan="3">
+                                                                            <form action="{{route('skill-update')}}"
+                                                                                  method="post">
+                                                                                {{csrf_field()}}
+                                                                                <div class="form-group">
+                                                                                    <div class="row">
+                                                                                        <div class="col-md-6">
+                                                                                            <label for="nf-email"
+                                                                                                   class="form-control-label">Keterampilan</label>
+                                                                                            <input type="text"
+                                                                                                   id="nf-email"
+                                                                                                   name="deskripsi"
+                                                                                                   placeholder=""
+                                                                                                   class="form-control"
+                                                                                                   value="{{$skills->deskripsi}}">
+                                                                                            <input type="hidden"
+                                                                                                   name="id"
+                                                                                                   value="{{$skills->id}}">
+                                                                                            <input type="hidden"
+                                                                                                   name="user_id"
+                                                                                                   value="{{ Auth::user()->id }}">
+                                                                                        </div>
+                                                                                        <div class="col-md-6">
+                                                                                            <label for="nf-email"
+                                                                                                   class="form-control-label">Tingkat </label>
+                                                                                            <select class="form-control"
+                                                                                                    name="tingkat">
+                                                                                                <option value="{{$skills->tingkat}}">{{$skills->tingkat}}</option>
+                                                                                                <option value="Pemula">
+                                                                                                    Pemula
+                                                                                                </option>
+                                                                                                <option value="Menengah">
+                                                                                                    Menengah
+                                                                                                </option>
+                                                                                                <option value="Tingkat Lanjut">
+                                                                                                    Tingkat
+                                                                                                    Lanjut
+                                                                                                </option>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <button type="submit"
+                                                                                            class="btn btn-primary btn-md">
+                                                                                        <i class="fa fa-refresh"></i>
+                                                                                        Perbarui Skill
+                                                                                    </button>
+                                                                                </div>
+                                                                            </form>
+
+                                                                        </td>
+
                                                                     </tr>
                                                                 @endforeach
                                                                 </tbody>
@@ -526,7 +584,7 @@
                                                             <div class="form-group">
                                                                 <button type="submit"
                                                                         class="btn btn-primary btn-md">
-                                                                    <i class="fa fa-plus-circle"></i>
+                                                                    <i class="fa fa-plus-circle"></i> Tambahkan Bahasa
                                                                 </button>
                                                             </div>
                                                         </form>
@@ -552,12 +610,15 @@
                                                                         <td>
                                                                             <div class="pull-left">
                                                                                 <div class="table-data-feature">
-                                                                                    <button class="btn btn-info"
-                                                                                            data-toggle="tooltip"
-                                                                                            data-placement="top"
-                                                                                            title="Edit Data Bahasa">
-                                                                                        <i class="zmdi zmdi-edit"></i>
-                                                                                    </button>
+                                                                                    <a href="#"
+                                                                                       id="edit_{{ $bhs->id }}">
+                                                                                        <button class="btn btn-info"
+                                                                                                data-toggle="tooltip"
+                                                                                                data-placement="top"
+                                                                                                title="Edit Data Bahasa">
+                                                                                            <i class="zmdi zmdi-edit"></i>
+                                                                                        </button>
+                                                                                    </a>
                                                                                     <form action="{{route('bhs-delete')}}"
                                                                                           method="post"
                                                                                           style="margin-left: 5pt">
@@ -576,6 +637,65 @@
                                                                             </div>
                                                                         </td>
                                                                     </tr>
+                                                                    <tr id="form_{{ $bhs->id }}" class="tr-shadow"
+                                                                        style="display: none">
+                                                                        <td colspan="4">
+
+                                                                            <form action="{{route('bhs-update')}}" method="post">
+                                                                                {{csrf_field()}}
+                                                                                <div class="form-group">
+                                                                                    <div class="row">
+                                                                                        <div class="col-md-6">
+                                                                                            <label for="nf-email"
+                                                                                                   class="form-control-label">Bahasa </label>
+                                                                                            <select class="form-control" name="bhs">
+                                                                                                <option value="{{$bhs->bhs}}">{{$bhs->bhs}}</option>
+                                                                                                <option value="Indonesia">Indonesia
+                                                                                                </option>
+                                                                                                <option value="English">English</option>
+                                                                                                <option value="Dutch">Dutch</option>
+                                                                                                <option value="German">German</option>
+                                                                                                <option value="Japanese">Japanese
+                                                                                                </option>
+                                                                                                <option value="French">French</option>
+                                                                                                <option value="Chinese">Chinese</option>
+                                                                                            </select>
+                                                                                            <input value="{{$bhs->id}}" name="id" type="hidden">
+                                                                                            <input type="hidden" name="user_id"
+                                                                                                   value="{{ Auth::user()->id }}">
+                                                                                        </div>
+                                                                                        <div class="col-md-3">
+                                                                                            <label for="nf-email"
+                                                                                                   class="form-control-label">Berbicara </label>
+                                                                                            <select class="form-control" name="spoken">
+                                                                                                <option value="{{$bhs->spoken}}">{{$bhs->spoken}}</option>
+                                                                                                @for($a=1;$a<11;$a++)
+                                                                                                    <option value="{{$a}}">{{$a}}</option>
+                                                                                                @endfor
+                                                                                            </select>
+                                                                                        </div>
+                                                                                        <div class="col-md-3">
+                                                                                            <label for="nf-email"
+                                                                                                   class="form-control-label">Menulis </label>
+                                                                                            <select class="form-control" name="write">
+                                                                                                <option value="{{$bhs->write}}">{{$bhs->write}}</option>
+                                                                                                @for($a=1;$a<11;$a++)
+                                                                                                    <option value="{{$a}}">{{$a}}</option>
+                                                                                                @endfor
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <button type="submit"
+                                                                                            class="btn btn-primary btn-md">
+                                                                                        <i class="fa fa-refresh"></i>Perbarui Bahasa
+                                                                                    </button>
+                                                                                </div>
+                                                                            </form>
+                                                                        </td>
+                                                                    </tr>
+
                                                                 @endforeach
                                                                 </tbody>
                                                             </table>
@@ -731,6 +851,23 @@
     </div>
 @endsection
 @push('js')
+    <script>
+
+        $("a[id^=show_]").click(function (event) {
+            $("#extra_" + $(this).attr('id').substr(5)).toggle();
+            event.preventDefault();
+        });
+
+        $("a[id^=edit_]").click(function (event) {
+            $("#form_" + $(this).attr('id').substr(5)).toggle();
+            event.preventDefault();
+        });
+
+        function tambah(id) {
+            $(id).append('')
+        }
+    </script>
+
     <script>
         @if(Session::has('success'))
         swal({
