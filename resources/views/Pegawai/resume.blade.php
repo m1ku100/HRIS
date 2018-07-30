@@ -896,7 +896,7 @@
                                                                                             <small>(Max. 2mb. Format .jpg/.jpeg/.png)
                                                                                             </small>
                                                                                         </label>
-                                                                                        <img src="{{asset('storage/'.$sert->dir_setifikat)}}">
+                                                                                        <img src="{{asset($sert->dir_setifikat)}}">
                                                                                         <input type="hidden" name="dir_lama" value="{{$sert->dir_setifikat}}">
                                                                                         <input type="file" id="nf-email"
                                                                                                name="dir_setifikat"

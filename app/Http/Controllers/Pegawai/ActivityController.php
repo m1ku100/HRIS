@@ -14,6 +14,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
 
 class ActivityController extends Controller
@@ -40,7 +42,7 @@ class ActivityController extends Controller
     //halaman Posisi
     public function posisi()
     {
-        $posisi = Posisi::orderBy('created_at', 'DESC')->where('is_over',false)->paginate(10);
+        $posisi = Posisi::orderBy('created_at', 'DESC')->where('is_over', false)->paginate(10);
         return view('pegawai.posisipeg', compact('posisi'));
     }
 
@@ -194,7 +196,7 @@ class ActivityController extends Controller
     {
         $exp = Experience::find($request->id);
 
-       $exp->update([
+        $exp->update([
             'job_title' => $request->job_title,
             'company' => $request->company,
             'industri_id' => $request->industri_id,
@@ -443,21 +445,24 @@ class ActivityController extends Controller
             'user_id' => 'required',
         ]);
 
-        if ($request->hasFile('dir_setifikat')) {
+        $sert = Sertificate::create([
+            'keahlian' => $request->keahlian,
+            'setifikat' => $request->setifikat,
+            'ket_setifikat' => $request->ket_setifikat,
+            'user_id' => $request->user_id,
 
-            $fillnames2 = $request->dir_setifikat->getClientOriginalName() . '' . str_random(4);
-            $filename = 'upload/photo/'
-                . str_slug($fillnames2, '-') . '.' . $request->dir_setifikat->getClientOriginalExtension();
-            $request->dir_setifikat->storeAs('public', $filename);
-            $berkas = new Sertificate();
-            $berkas->dir_setifikat = $filename;
-            $berkas->keahlian = $request->keahlian;
-            $berkas->setifikat = $request->setifikat;
-            $berkas->ket_setifikat = $request->ket_setifikat;
-            $berkas->user_id = $request->user_id;
-            $berkas->save();
-            $dir = $fillnames2;
+        ]);
+
+        if (Input::has('dir_setifikat')) {
+            $file = str_replace(' ', '_', str_random(4).''.$request->file('dir_setifikat')->getClientOriginalName());
+
+            Input::file('dir_setifikat')->move('serti/', $file);
+            $sert->update([
+                'dir_setifikat' => 'serti/' . $file,
+            ]);
         }
+
+//
         return redirect('/emp/resume')->with([
             'success' => 'Data Diri Berhasil Diubah!'
         ]);
@@ -471,10 +476,23 @@ class ActivityController extends Controller
             'keahlian' => $request->keahlian,
             'setifikat' => $request->setifikat,
             'ket_setifikat' => $request->ket_setifikat,
-            'dir_lama' => $request->dir_lama,
+            'dir_setifikat' => $request->dir_lama,
             'user_id' => $request->user_id,
 
         ]);
+
+        $file = $serti->dir_setifikat;
+        File::delete($file);
+
+
+        if (Input::has('dir_setifikat')) {
+            $file = str_replace(' ', '_', str_random(4).''.$request->file('dir_setifikat')->getClientOriginalName());
+
+            Input::file('dir_setifikat')->move('serti/', $file);
+            $serti->update([
+                'dir_setifikat' => 'serti/' . $file,
+            ]);
+        }
 
         return redirect('/emp/resume')->with([
             'success' => 'Data Diri Berhasil Diubah!'
@@ -485,8 +503,8 @@ class ActivityController extends Controller
     {
         $ser = Sertificate::find($request->id);
         $file = $ser->dir_setifikat;
-        Storage::delete($ser->dir_setifikat);
-        unlink(storage_path('app/public/'.$file));
+        File::delete($file);
+
         $ser->delete();
 
         return back()->with([

@@ -320,7 +320,7 @@
                                                                                        class="form-control-label">Gambar Sertifikat
 
                                                                                 </label>
-                                                                                <img src="{{asset('storage/'.$sert->dir_setifikat)}}">
+                                                                                <img src="{{asset($sert->dir_setifikat)}}">
 
                                                                             </div>
 
