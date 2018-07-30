@@ -27,7 +27,7 @@ class ActivityController extends Controller
           'name' => $request->name,
           'email' => $request->email,
           'role' => $request->role,
-          'password' => bcrypt( $request->name ),
+          'password' => bcrypt( $request->password ),
         ]);
 
         return back()->with('success', '');
