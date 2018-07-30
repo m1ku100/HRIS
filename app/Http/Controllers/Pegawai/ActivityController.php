@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ActivityController extends Controller
 {
@@ -483,6 +484,9 @@ class ActivityController extends Controller
     public function sertificatedelete(Request $request)
     {
         $ser = Sertificate::find($request->id);
+        $file = $ser->dir_setifikat;
+        Storage::delete($ser->dir_setifikat);
+        unlink(storage_path('app/public/'.$file));
         $ser->delete();
 
         return back()->with([
