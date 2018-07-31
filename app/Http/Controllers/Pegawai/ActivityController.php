@@ -151,6 +151,11 @@ class ActivityController extends Controller
 
     }
 
+    public function work()
+    {
+        return view('pegawai.work');
+    }
+
     public function workadd(Request $request)
     {
         $request->validate([

@@ -75,6 +75,11 @@ Route::group(['prefix' => 'emp'], function(){
         'as' => 'edit-pegawai-update'
     ]);
 
+    Route::get('/resume/work/add', [
+        'uses' => 'Pegawai\ActivityController@work',
+        'as' => 'work-form'
+    ]);
+
     Route::post('/resume/work/add', [
         'uses' => 'Pegawai\ActivityController@workadd',
         'as' => 'work-add'

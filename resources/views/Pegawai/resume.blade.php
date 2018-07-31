@@ -109,7 +109,7 @@
                                         <h3><i class="fas fa-suitcase"></i> Pengalaman Bekerja Anda</h3>
                                         @if(App\Experience::where('user_id',Auth::user()->id)->count()  < 1 )
                                         @else
-                                            <a href="{{route('edu-pegawai')}}" class="pull-right">
+                                            <a href="{{route('work-form')}}" class="pull-right">
                                                 <button class="btn btn-primary btn-sm rounded pull-right"><span
                                                             class="fa fa-plus-circle"></span>Tambah Data Pengalaman
                                                 </button>
@@ -927,10 +927,10 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
+                        <br><br><br>
                     </div>
                 </div>
             </div>

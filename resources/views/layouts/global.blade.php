@@ -49,9 +49,11 @@
         <div class="header-mobile__bar">
             <div class="container-fluid">
                 <div class="header-mobile-inner">
-                    <a class="logo" href="index.html">
-                        <img src="images/icon/logo.png" alt="CoolAdmin"/>
-                    </a>
+                    <div class="logo">
+                        <a href="#">
+                            <h4>Human Resource Information System</h4>
+                        </a>
+                    </div>
                     <button class="hamburger hamburger--slider" type="button">
                             <span class="hamburger-box">
                                 <span class="hamburger-inner"></span>
@@ -63,99 +65,76 @@
         <nav class="navbar-mobile">
             <div class="container-fluid">
                 <ul class="navbar-mobile__list list-unstyled">
-                    <li class="has-sub">
-                        <a class="js-arrow" href="#">
-                            <i class="fas fa-tachometer-alt"></i>Dashboard</a>
-                        <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
+
+                    @if(Auth::check())
+
+                        @if(Auth::user()->isManajer())
                             <li>
-                                <a href="index.html">Dashboard 1</a>
+                                <a href="{{route('home-manajer')}}">
+                                    <i class="fas fa-chart-bar"></i>Dashboard</a>
                             </li>
                             <li>
-                                <a href="index2.html">Dashboard 2</a>
+                                <a href="{{route('posisi-manajer')}}">
+                                    <i class="fas fa-list-alt"></i>Posisi</a>
                             </li>
                             <li>
-                                <a href="index3.html">Dashboard 3</a>
+                                <a href="{{route('lamaran-manajer')}}">
+                                    <i class="fas fa-file"></i>Lamaran</a>
                             </li>
                             <li>
-                                <a href="index4.html">Dashboard 4</a>
+                                <a href="{{route('akun-manajer')}}">
+                                    <i class="fas fa-user"></i>Account Setting</a>
                             </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="chart.html">
-                            <i class="fas fa-chart-bar"></i>Charts</a>
-                    </li>
-                    <li>
-                        <a href="table.html">
-                            <i class="fas fa-table"></i>Tables</a>
-                    </li>
-                    <li>
-                        <a href="form.html">
-                            <i class="far fa-check-square"></i>Forms</a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="fas fa-calendar-alt"></i>Calendar</a>
-                    </li>
-                    <li>
-                        <a href="map.html">
-                            <i class="fas fa-map-marker-alt"></i>Maps</a>
-                    </li>
-                    <li class="has-sub">
-                        <a class="js-arrow" href="#">
-                            <i class="fas fa-copy"></i>Pages</a>
-                        <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
+                        @elseif(Auth::user()->isPegawai())
                             <li>
-                                <a href="login.html">Login</a>
+                                <a href="{{route('home-pegawai')}}">
+                                    <i class="fas fa-chart-bar"></i>Dashboard</a>
                             </li>
                             <li>
-                                <a href="register.html">Register</a>
+                                <a href="{{route('posisi-pegawai')}}">
+                                    <i class="fas fa-table"></i>Posisi Yang Tersedia</a>
+                            </li>
+                            {{--<li class="has-sub">--}}
+                            {{--<a class="js-arrow" href="#">--}}
+                            {{--<i class="fas fa-folder"></i>Resume</a>--}}
+                            {{--<ul class="list-unstyled navbar__sub-list js-sub-list">--}}
+                            {{--<li>--}}
+                            {{--<a href="login.html">Pendidikan</a>--}}
+                            {{--</li>--}}
+                            {{--<li>--}}
+                            {{--<a href="register.html">Pengalaman Kerja</a>--}}
+                            {{--</li>--}}
+                            {{--<li>--}}
+                            {{--<a href="forget-pass.html">Keterampilan Dan Bahasa</a>--}}
+                            {{--</li>--}}
+                            {{--</ul>--}}
+                            {{--</li>--}}
+                            <li>
+                                <a href="{{route('resume-pegawai')}}">
+                                    <i class="fas fa-folder"></i>Resume</a>
                             </li>
                             <li>
-                                <a href="forget-pass.html">Forget Password</a>
+                                <a href="{{route('akun-pegawai')}}">
+                                    <i class="fas fa-user"></i>Setting Akun</a>
                             </li>
-                        </ul>
-                    </li>
-                    <li class="has-sub">
-                        <a class="js-arrow" href="#">
-                            <i class="fas fa-desktop"></i>UI Elements</a>
-                        <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
+                        @elseif(Auth::user()->isAdmin())
                             <li>
-                                <a href="button.html">Button</a>
+                                <a href="{{route('home-admin')}}">
+                                    <i class="fas fa-chart-bar"></i>Dashboard</a>
                             </li>
                             <li>
-                                <a href="badge.html">Badges</a>
+                                <a href="{{route('user-admin')}}">
+                                    <i class="fas fa-users"></i>Reset User</a>
                             </li>
                             <li>
-                                <a href="tab.html">Tabs</a>
+                                <a href="{{route('akun-admin')}}">
+                                    <i class="fas fa-user"></i>Setting Account</a>
                             </li>
-                            <li>
-                                <a href="card.html">Cards</a>
-                            </li>
-                            <li>
-                                <a href="alert.html">Alerts</a>
-                            </li>
-                            <li>
-                                <a href="progress-bar.html">Progress Bars</a>
-                            </li>
-                            <li>
-                                <a href="modal.html">Modals</a>
-                            </li>
-                            <li>
-                                <a href="switch.html">Switchs</a>
-                            </li>
-                            <li>
-                                <a href="grid.html">Grids</a>
-                            </li>
-                            <li>
-                                <a href="fontawesome.html">Fontawesome Icon</a>
-                            </li>
-                            <li>
-                                <a href="typo.html">Typography</a>
-                            </li>
-                        </ul>
-                    </li>
+                        @endif
                 </ul>
+                @endif
+
+
             </div>
         </nav>
     </header>
