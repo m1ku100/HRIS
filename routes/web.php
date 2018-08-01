@@ -264,6 +264,22 @@ Route::group(['prefix' => 'manajer'], function () {
         'as' => 'lamaran-detail'
     ]);
 
+    //laman user
+    Route::get('/user', [
+        'uses' => 'Manager\ActivityController@user',
+        'as' => 'user-manajer'
+    ]);
+
+    Route::get('/pegawai/detail/{id}', [
+        'uses' => 'Manager\ActivityController@pegawai',
+        'as' => 'pegawai-detail'
+    ]);
+
+    Route::get('/pegawai/search', [
+        'uses' => 'Manager\ActivityController@pegawaisearch',
+        'as' => 'pegawai-cari'
+    ]);
+
     // laman account
     Route::get('/account', [
         'uses' => 'Manager\ActivityController@account',

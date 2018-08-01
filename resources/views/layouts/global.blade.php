@@ -82,6 +82,10 @@
                                     <i class="fas fa-file"></i>Lamaran</a>
                             </li>
                             <li>
+                                <a href="{{route('user-manajer')}}">
+                                    <i class="fas fa-users"></i>Data Pegawai</a>
+                            </li>
+                            <li>
                                 <a href="{{route('akun-manajer')}}">
                                     <i class="fas fa-user"></i>Account Setting</a>
                             </li>
@@ -167,8 +171,12 @@
                                     <i class="fas fa-file"></i>Lamaran</a>
                             </li>
                             <li>
+                                <a href="{{route('user-manajer')}}">
+                                    <i class="fas fa-users"></i>Data Pegawai</a>
+                            </li>
+                            <li>
                                 <a href="{{route('akun-manajer')}}">
-                                    <i class="fas fa-user"></i>Account Setting</a>
+                                    <i class="fas fa-cog"></i>Account Setting</a>
                             </li>
                         @elseif(Auth::user()->isPegawai())
                             <li>
@@ -179,21 +187,7 @@
                                 <a href="{{route('posisi-pegawai')}}">
                                     <i class="fas fa-table"></i>Posisi Yang Tersedia</a>
                             </li>
-                            {{--<li class="has-sub">--}}
-                            {{--<a class="js-arrow" href="#">--}}
-                            {{--<i class="fas fa-folder"></i>Resume</a>--}}
-                            {{--<ul class="list-unstyled navbar__sub-list js-sub-list">--}}
-                            {{--<li>--}}
-                            {{--<a href="login.html">Pendidikan</a>--}}
-                            {{--</li>--}}
-                            {{--<li>--}}
-                            {{--<a href="register.html">Pengalaman Kerja</a>--}}
-                            {{--</li>--}}
-                            {{--<li>--}}
-                            {{--<a href="forget-pass.html">Keterampilan Dan Bahasa</a>--}}
-                            {{--</li>--}}
-                            {{--</ul>--}}
-                            {{--</li>--}}
+
                             <li>
                                 <a href="{{route('resume-pegawai')}}">
                                     <i class="fas fa-folder"></i>Resume</a>

@@ -158,6 +158,41 @@ class ActivityController extends Controller
         return view('manajer.certificate', compact('serti'));
     }
 
+    //halaman user
+
+    public function user()
+    {
+        $user = User::where('role','pegawai')->paginate(10);
+        return view('manajer.user',compact('posisi','user'));
+    }
+
+    public function pegawaisearch(Request $request)
+    {
+        $key = $request->user;
+
+        $user =  User::whereRaw('(name LIKE \'%' . $key . '%\')')->where('role','pegawai')->paginate(10);
+
+        if ($user == null) {
+            return back()->with('error', '');
+        } else {
+            return view('manajer.user', compact('user'));
+        }
+    }
+
+    public function pegawai(Request $request)
+    {
+        $user = User::findOrFail(decrypt($request->id));
+
+        $pend = Pendidikan::where('user_id',$user->id)->orderBy('tahun_lulus', 'desc')->get();
+        $work = Experience::where('user_id', $user->id)->orderBy('work_from', 'desc')->get();
+        $skill = Skill::where('user_id', $user->id)->get();
+        $bahasa = Bahasa::where('user_id', $user->id)->get();
+        $serti = Sertificate::where('user_id', $user->id)->get();
+
+        return view('manajer.pegawai', compact('user','pend', 'work', 'skill', 'bahasa', 'serti'));
+    }
+
+
 
     //halaman akun
 
