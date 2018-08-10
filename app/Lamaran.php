@@ -16,4 +16,9 @@ class Lamaran extends Model
     ];
 
     protected $dates = ['deleted_at'];
+
+    public function getPosisi()
+    {
+        return $this->belongsTo('App\Posisi','posisi_id');
+    }
 }

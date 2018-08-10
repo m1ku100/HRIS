@@ -26,7 +26,8 @@
                         @endif
 
                         <div class="card">
-                            <form action="{{route('pegawai-add')}}" method="post" class="">
+                            <form action="{{route('pegawai-add')}}" method="post" class=""
+                                  enctype="multipart/form-data">
                                 {{ csrf_field() }}
                                 <div class="card-header">
                                     <i class="fa fa-file-text"></i>
@@ -34,7 +35,7 @@
                                 </div>
                                 <div class="card-body card-block">
                                     <div class="form-group">
-                                        <label for="nf-email" class="form-control-label">Nama  </label>
+                                        <label for="nf-email" class="form-control-label">Nama </label>
                                         <input type="text" id="nf-email" name="nama" value="{{ Auth::user()->name }}"
                                                placeholder="Nama Lengkap Anda...."
                                                class="form-control">
@@ -42,23 +43,23 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="row">
-                                        <div class="col-md-6">
-                                            <label for="nf-email" class="form-control-label">Tempat lahir </label>
-                                            <input type="text" id="nf-email" name="tmp_lahir"
-                                                   placeholder="Tempat Lahir..."
-                                                   class="form-control">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="nf-email" class="form-control-label">Tanggal Lahir </label>
-                                            <input type="date" id="nf-email" name="tgl_lahir"
-                                                   class="form-control">
-                                        </div>
+                                            <div class="col-md-6">
+                                                <label for="nf-email" class="form-control-label">Tempat lahir </label>
+                                                <input type="text" id="nf-email" name="tmp_lahir"
+                                                       placeholder="Tempat Lahir..."
+                                                       class="form-control">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="nf-email" class="form-control-label">Tanggal Lahir </label>
+                                                <input type="date" id="nf-email" name="tgl_lahir"
+                                                       class="form-control">
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <label for="nf-email" class="form-control-label">Gender  </label>
+                                                <label for="nf-email" class="form-control-label">Gender </label>
                                                 <select name="gender" id="select" class="form-control">
                                                     <option value="Laki-Laki">Laki-Laki</option>
                                                     <option value="Perempuan">Perempuan</option>
@@ -66,22 +67,34 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <label for="nf-email" class="form-control-label">No. Telp. </label>
-                                                <input type="text" id="nf-email" name="telp" onkeypress="return isNumberKey(event)"
+                                                <input type="text" id="nf-email" name="telp"
+                                                       onkeypress="return isNumberKey(event)"
                                                        class="form-control">
                                             </div>
                                             <div class="col-md-4">
                                                 <label for="nf-email" class="form-control-label">Email </label>
-                                                <input type="email" id="nf-email" name="email" value="{{ Auth::user()->email }}"
+                                                <input type="email" id="nf-email" name="email"
+                                                       value="{{ Auth::user()->email }}"
                                                        class="form-control disabled" readonly>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary btn-md">
-                                        <i class="fa fa-dot-circle-o"></i> Submit
-                                    </button>
-
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label for="nf-email" class="form-control-label">Foto Diri
+                                                    <small>Maks. 2mb (.PNG/.JPG/.JPEG)</small>
+                                                </label>
+                                                <input type="file" class="form-control disabled" name="dir_foto"
+                                                       readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <button type="submit" class="btn btn-primary btn-md">
+                                            <i class="fa fa-dot-circle-o"></i> Submit
+                                        </button>
+                                    </div>
                                 </div>
                             </form>
                         </div>

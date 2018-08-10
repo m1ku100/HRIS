@@ -112,7 +112,21 @@ class ActivityController extends Controller
             'gender' => $request->gender,
             'telp' => $request->telp,
             'email' => $request->email,
+            'dir_foto' => $request->dir_foto_temp,
         ]);
+
+        if (Input::has('dir_foto')) {
+
+            $file = $emplo->dir_foto;
+            File::delete($file);
+
+            $file = str_replace(' ', '_', str_random(4) . '' . $request->file('dir_foto')->getClientOriginalName());
+
+            Input::file('dir_foto')->move('photo/', $file);
+            $emplo->update([
+                'dir_foto' => 'photo/' . $file,
+            ]);
+        }
 
         return redirect('/emp/resume')->with([
             'success' => 'Data Diri Berhasil Diubah!'
@@ -134,7 +148,7 @@ class ActivityController extends Controller
 
         ]);
 
-        Employee::create([
+        $emp = Employee::create([
             'nama' => $request->nama,
             'tmp_lahir' => $request->tmp_lahir,
             'user_id' => $request->user_id,
@@ -143,6 +157,15 @@ class ActivityController extends Controller
             'telp' => $request->telp,
             'email' => $request->email,
         ]);
+
+        if (Input::has('dir_foto')) {
+            $file = str_replace(' ', '_', str_random(4) . '' . $request->file('dir_foto')->getClientOriginalName());
+
+            Input::file('dir_foto')->move('photo/', $file);
+            $emp->update([
+                'dir_foto' => 'photo/' . $file,
+            ]);
+        }
 
         return redirect('/emp/resume')->with([
             'success' => 'Data Diri Berhasil Diubah!'
@@ -459,7 +482,7 @@ class ActivityController extends Controller
         ]);
 
         if (Input::has('dir_setifikat')) {
-            $file = str_replace(' ', '_', str_random(4).''.$request->file('dir_setifikat')->getClientOriginalName());
+            $file = str_replace(' ', '_', str_random(4) . '' . $request->file('dir_setifikat')->getClientOriginalName());
 
             Input::file('dir_setifikat')->move('serti/', $file);
             $sert->update([
@@ -491,7 +514,7 @@ class ActivityController extends Controller
 
 
         if (Input::has('dir_setifikat')) {
-            $file = str_replace(' ', '_', str_random(4).''.$request->file('dir_setifikat')->getClientOriginalName());
+            $file = str_replace(' ', '_', str_random(4) . '' . $request->file('dir_setifikat')->getClientOriginalName());
 
             Input::file('dir_setifikat')->move('serti/', $file);
             $serti->update([

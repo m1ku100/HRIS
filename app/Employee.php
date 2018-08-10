@@ -12,7 +12,7 @@ class Employee extends Model
     protected $table = 'pegawai';
 
     protected $fillable = [
-        'id', 'user_id', 'nama', 'tmp_lahir', 'tgl_lahir', 'gender', 'telp', 'email'
+        'id', 'user_id', 'nama', 'dir_foto', 'tmp_lahir', 'tgl_lahir', 'gender', 'telp', 'email'
         ];
 
     protected $dates = ['deleted_at'];

@@ -26,7 +26,8 @@
                         @endif
                         @foreach(App\Employee::where('user_id',Auth::user()->id)->get() as $edit)
                             <div class="card">
-                                <form action="{{route('edit-pegawai-update')}}" method="post" class="">
+                                <form action="{{route('edit-pegawai-update')}}" method="post" class=""
+                                      enctype="multipart/form-data">
                                     {{ csrf_field() }}
                                     <div class="card-header">
                                         <i class="fa fa-file-text"></i>
@@ -84,11 +85,25 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="card-footer">
-                                        <button type="submit" class="btn btn-primary btn-md">
-                                            <i class="fa fa-dot-circle-o"></i> Submit
-                                        </button>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <img src="{{asset($edit->dir_foto)}}">
+                                                <label for="nf-email" class="form-control-label">Foto Diri
+                                                    <small>Maks. 2mb (.PNG/.JPG/.JPEG)</small>
+                                                </label>
+                                                <input type="file" class="form-control disabled" name="dir_foto"
+                                                       readonly>
+                                                <input type="hidden" class="form-control disabled" name="dir_foto_temp"
+                                                       value="{{$edit->dir_foto}}" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer">
+                                            <button type="submit" class="btn btn-primary btn-md">
+                                                <i class="fa fa-dot-circle-o"></i> Submit
+                                            </button>
 
+                                        </div>
                                     </div>
                                 </form>
                             </div>

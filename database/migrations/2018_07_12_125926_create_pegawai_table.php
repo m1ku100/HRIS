@@ -17,6 +17,7 @@ class CreatePegawaiTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('CASCADE');
+            $table->string('dir_foto')->nullable();
             $table->string('nama');
             $table->string('tmp_lahir');
             $table->string('tgl_lahir');
