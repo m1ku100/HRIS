@@ -11,13 +11,23 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h3>Lamaran yang Masuk</h3>
+                        <br>
                         <div class="table-data__tool">
                             <div class="table-data__tool-left">
                                 <form action="{{route('lamaran-cari')}}" method="get">
                                     <div class="rs-select2--light rs-select2--lg">
+                                        <label for="nf-email" class="form-control-label">Posisi Yang Tersedia saat Ini</label>
+                                        <select class="js-select2" name="posisi">
+                                            <option value="all">Semua</option>
+                                            @foreach(App\Posisi::where('is_over',false)->get() as $posisi)
+                                                <option value="{{$posisi->id}}">{{$posisi->nama}}</option>
+                                            @endforeach
+                                        </select>
+                                        <div class="dropDownSelect2"></div>
+                                    </div>
+                                    <div class="rs-select2--light rs-select2--lg align-items-center">
                                         <label for="nf-email" class="form-control-label">Start From</label>
                                         <input type="date" id="nf-email" name="start"
-
                                                class="form-control">
                                     </div>
                                     <div class="rs-select2--light rs-select2--lg">
@@ -25,6 +35,16 @@
                                         <input type="date" id="nf-email" name="end"
 
                                                class="form-control">
+                                    </div>
+                                    <div class="rs-select2--light rs-select2--lg">
+                                        <label for="nf-email" class="form-control-label">Pendidikan Pelamar</label>
+                                        <select class="js-select2" name="degree">
+                                            <option value="all">Semua</option>
+                                            @foreach(App\Edu::all() as $edu)
+                                                <option value="{{$edu->id}}">{{$edu->jenjang}}</option>
+                                            @endforeach
+                                        </select>
+                                        <div class="dropDownSelect2"></div>
                                     </div>
                                     <button type="submit" class="au-btn-filter">
                                         <i class="zmdi zmdi-filter-list"></i>filters
@@ -37,9 +57,11 @@
                                 <thead>
                                 <tr>
                                     <th>Nomor</th>
-                                    <th>Nama Posisi</th>
-                                    <th>Tanggal Upload</th>
-                                    <th></th>
+                                    <th>Nama Pegawai</th>
+                                    <th>Posisi</th>
+                                    <th>Tanggal Masuk Lamaran</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
 
                                 </tr>
                                 </thead>
@@ -47,154 +69,56 @@
                                 <?php
                                 $num = 1;
                                 ?>
-                                @if(is_null($posisi))
+                                @if(is_null($lamaran))
                                 @else
-                                    @foreach($posisi as $pos)
-
+                                    @foreach($lamaran as $lamarans)
                                         <tr class="tr-shadow">
                                             <td>{{$num}}</td>
-                                            <?php
-                                            $num++;
-                                            ?>
-                                            <td class="desc">{{$pos->nama}}</td>
-                                            <td>{{$pos->created_at->format('D,d M Y')}}</td>
+                                            <?php $num++?>
+                                            <td>{{App\User::find($lamarans->user_id)->name}}</td>
+                                            <td>{{App\Posisi::find($lamarans->posisi_id)->nama}}</td>
+                                            <td>{{$lamarans->created_at->format('D,d M Y')}}</td>
                                             <td>
-                                                <div class="pull-left">
-                                                    <div class="table-data-feature">
-                                                        {{--<a href="#" id="edit_{{ $pos->id }}">--}}
-                                                        {{--<button class="item" data-toggle="tooltip" data-placement="top"--}}
-                                                        {{--title="Edit">--}}
-                                                        {{--<i class="zmdi zmdi-edit"></i>--}}
-                                                        {{--</button>--}}
-                                                        {{--</a>--}}
-                                                        <a href="#" id="show_{{ $pos->id }}">
-                                                            <button class="item" data-toggle="tooltip"
+
+                                                {{App\Pendidikan::where('user_id',App\User::find($lamarans->user_id)->id)->get()}}
+                                                @if($lamarans->is_atasi == true)
+                                                    <span class="status--process">Sudah Diproses</span>
+                                                @else
+                                                    <span class="status--denied">Belum Diproses</span>
+                                                @endif
+                                            </td>
+                                            <td >
+                                                <div class="table-data-feature align-items-center pull-left">
+                                                    @if($lamarans->is_atasi == false)
+                                                        <form action="{{route('lamaran-proses')}}"
+                                                              method="post">
+                                                            {{ csrf_field() }}
+                                                            <input type="hidden"
+                                                                   value="{{$lamarans->id}}"
+                                                                   name="id">
+                                                            <input type="hidden" value="1"
+                                                                   name="is_atasi">
+                                                            <button type="submit" class="item"
+                                                                    data-toggle="tooltip"
                                                                     data-placement="top"
-                                                                    title="Data Pelamar">
-                                                                <i class="zmdi zmdi-more"></i>
+                                                                    title="Tandai Sebagai Telah Diproses">
+                                                                <i class="zmdi zmdi-check"></i>
                                                             </button>
-                                                        </a>
-                                                    </div>
+                                                        </form>
+                                                    @else
+                                                    @endif
+                                                    <a target="_blank"
+                                                       href="{{ route('lamaran-detail', ['id' =>  $es = encrypt($lamarans->user_id)]) }}">
+                                                        <button class="item"
+                                                                data-toggle="tooltip"
+                                                                data-placement="top"
+                                                                title="Detail Pelamar">
+                                                            <i class="zmdi zmdi-more"></i>
+                                                        </button>
+                                                    </a>
                                                 </div>
                                             </td>
                                         </tr>
-
-                                        <tr id="extra_{{ $pos->id }}" class="tr-shadow" style="display: none">
-                                            <td colspan="4">
-                                                <div class="table-responsive table-responsive-data2">
-                                                    <table class="table table-data2">
-                                                        <thead>
-                                                        <tr>
-                                                            <th colspan="6">
-                                                                <center>
-                                                                    <h4>Daftar Pelamar Pada Posisi Ini</h4>
-                                                                </center>
-                                                            </th>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>No</td>
-                                                            <th>Nama Pelamar</th>
-                                                            <th>Email Pelamar</th>
-                                                            <th>Tanggal Masuk Lamaran</th>
-                                                            <th>status</th>
-                                                            <th></th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        <?php
-                                                        $no = 1;
-                                                        ?>
-                                                        @foreach(App\Lamaran::where('posisi_id',$pos->id)->get() as $pelamar)
-                                                            <tr class="tr-shadow">
-                                                                <td>{{$no}}</td>
-                                                                <?php
-                                                                $no++;
-                                                                ?>
-                                                                <td>{{App\User::find($pelamar->user_id)->name}}</td>
-                                                                <td>
-                                                                    <span class="block-email">{{App\User::find($pelamar->user_id)->name}}</span>
-                                                                </td>
-                                                                <td>{{$pelamar->created_at->format('D,d M Y')}}</td>
-                                                                <td>
-                                                                    @if($pelamar->is_atasi == true)
-                                                                        <span class="status--process">Sudah Diproses</span>
-                                                                    @else
-                                                                        <span class="status--denied">Belum Diproses</span>
-                                                                    @endif
-                                                                </td>
-                                                                <td>
-                                                                    <div class="table-data-feature">
-                                                                        @if($pelamar->is_atasi == false)
-                                                                            <form action="{{route('lamaran-proses')}}"
-                                                                                  method="post">
-                                                                                {{ csrf_field() }}
-                                                                                <input type="hidden"
-                                                                                       value="{{$pelamar->id}}"
-                                                                                       name="id">
-                                                                                <input type="hidden" value="1"
-                                                                                       name="is_atasi">
-                                                                                <button type="submit" class="item"
-                                                                                        data-toggle="tooltip"
-                                                                                        data-placement="top"
-                                                                                        title="Tandai Sebagai Telah Diproses">
-                                                                                    <i class="zmdi zmdi-check"></i>
-                                                                                </button>
-                                                                            </form>
-                                                                        @else
-                                                                        @endif
-                                                                        <a target="_blank"
-                                                                           href="{{ route('lamaran-detail', ['id' =>  $es = encrypt($pelamar->user_id)]) }}">
-                                                                            <button class="item" data-toggle="tooltip"
-                                                                                    data-placement="top"
-                                                                                    title="Detail Pelamar">
-                                                                                <i class="zmdi zmdi-more"></i>
-                                                                            </button>
-                                                                        </a>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr class="spacer"></tr>
-                                                        @endforeach
-
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </td>
-
-
-                                        </tr>
-
-                                        <tr id="form_{{ $pos->id }}" class="tr-shadow" style="display: none">
-                                            <td><strong> Edit Posisi : </strong></td>
-                                            <td colspan="3">
-                                                <form action="{{route('posisi-update')}}" method="post">
-                                                    {{ csrf_field() }}
-                                                    <div class="form-group">
-                                                        <label for="nf-email" class="form-control-label">Nama
-                                                            Posisi </label>
-                                                        <input type="text" id="nf-email" name="nama"
-                                                               placeholder="Posisi yang Dibutuhkan"
-                                                               value="{{$pos->nama}}"
-                                                               class="form-control">
-                                                        <input type="hidden" name="id" value="{{ $pos->id }}">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="nf-email" class="form-control-label">Deskripsi
-                                                            Posisi
-                                                            yang
-                                                            Dibutuhkan</label>
-                                                        <textarea class="form-control use-tinymce" name="deskripsi"
-                                                                  placeholder="Deskripsi Posisi yang Dibutuhkan...."> {!! $pos->deskripsi !!} </textarea>
-                                                        {{--<input type="email" id="nf-email" name="nf-email" placeholder="Enter Email.."--}}
-                                                        {{--class="form-control" >--}}
-                                                    </div>
-                                                    <button type="submit" class="btn btn-primary btn-md">
-                                                        <i class="fa fa-dot-circle-o"></i> Update Data
-                                                    </button>
-                                                </form>
-                                            </td>
-                                        </tr>
-
                                         <tr class="spacer"></tr>
                                     @endforeach
                                 @endif
@@ -202,7 +126,7 @@
                                 </tbody>
                             </table>
                             <div class="filters m-b-45">
-                                {{ $posisi->links() }}
+                                {{ $lamaran->links() }}
                             </div>
                         </div>
                     </div>

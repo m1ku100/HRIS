@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Manager;
 
 
 use App\Bahasa;
+use App\Edu;
 use App\Experience;
 use App\Lamaran;
 use App\Pendidikan;
@@ -105,10 +106,15 @@ class ActivityController extends Controller
 
     public function lamaran()
     {
-        $posisi = Posisi::whereHas('pelamar')->paginate(10);
-//        $posisi = Posisi::paginate(10);
+        $degree = null;
 
-        return view('manajer.lamaran', compact('posisi'));
+        $lamaran = Lamaran::wherehas('getPosisi', function ($query) {
+            $query->where('is_over', false);
+        })->paginate(10);
+
+        $posisi = Posisi::whereHas('pelamar')->paginate(10);
+
+        return view('manajer.lamaran', compact('posisi', 'degree', 'lamaran'));
     }
 
     public function proses(Request $request)
@@ -123,6 +129,7 @@ class ActivityController extends Controller
 
     public function search(Request $request)
     {
+
         try {
             Carbon::parse($request->start)->addDay(-1);
             Carbon::parse($request->end);
@@ -130,12 +137,22 @@ class ActivityController extends Controller
             return back()->with('success', '');
         }
 
-        $posisi = Posisi::whereHas('pelamar')->where('created_at', '>=', Carbon::parse($request->start))->where('created_at', '<=', Carbon::parse($request->end)->addDay(+1))->paginate(10);
+        $posisi = $request->posisi;
 
-        if ($posisi == null) {
-            return back()->with('error', '');
+        if ($posisi == 'all') {
+
+            $lamaran = Lamaran::wherehas('getPosisi', function ($query) {
+                $query->where('is_over', false);
+            })->where('created_at', '>=', Carbon::parse($request->start))->where('created_at', '<=', Carbon::parse($request->end)->addDay(+1))->paginate(10);
+
+            return view('manajer.lamaran', compact('lamaran'));
         } else {
-            return view('manajer.lamaran', compact('posisi'));
+
+            $lamaran = Lamaran::wherehas('getPosisi', function ($query) {
+                $query->where('is_over', false);
+            })->where('posisi_id', $posisi)->where('created_at', '>=', Carbon::parse($request->start))->where('created_at', '<=', Carbon::parse($request->end)->addDay(+1))->paginate(10);
+
+            return view('manajer.lamaran', compact('lamaran'));
         }
     }
 
@@ -143,13 +160,13 @@ class ActivityController extends Controller
     {
         $user = User::findOrFail(decrypt($request->id));
 
-        $pend = Pendidikan::where('user_id',$user->id)->orderBy('tahun_lulus', 'desc')->get();
+        $pend = Pendidikan::where('user_id', $user->id)->orderBy('tahun_lulus', 'desc')->get();
         $work = Experience::where('user_id', $user->id)->orderBy('work_from', 'desc')->get();
         $skill = Skill::where('user_id', $user->id)->get();
         $bahasa = Bahasa::where('user_id', $user->id)->get();
         $serti = Sertificate::where('user_id', $user->id)->get();
 
-        return view('manajer.pelamar', compact('user','pend', 'work', 'skill', 'bahasa', 'serti'));
+        return view('manajer.pelamar', compact('user', 'pend', 'work', 'skill', 'bahasa', 'serti'));
     }
 
     public function certificate(Request $request)
@@ -162,15 +179,15 @@ class ActivityController extends Controller
 
     public function user()
     {
-        $user = User::where('role','pegawai')->paginate(10);
-        return view('manajer.user',compact('posisi','user'));
+        $user = User::where('role', 'pegawai')->paginate(10);
+        return view('manajer.user', compact('posisi', 'user'));
     }
 
     public function pegawaisearch(Request $request)
     {
         $key = $request->user;
 
-        $user =  User::whereRaw('(name LIKE \'%' . $key . '%\')')->where('role','pegawai')->paginate(10);
+        $user = User::whereRaw('(name LIKE \'%' . $key . '%\')')->where('role', 'pegawai')->paginate(10);
 
         if ($user == null) {
             return back()->with('error', '');
@@ -183,15 +200,14 @@ class ActivityController extends Controller
     {
         $user = User::findOrFail(decrypt($request->id));
 
-        $pend = Pendidikan::where('user_id',$user->id)->orderBy('tahun_lulus', 'desc')->get();
+        $pend = Pendidikan::where('user_id', $user->id)->orderBy('tahun_lulus', 'desc')->get();
         $work = Experience::where('user_id', $user->id)->orderBy('work_from', 'desc')->get();
         $skill = Skill::where('user_id', $user->id)->get();
         $bahasa = Bahasa::where('user_id', $user->id)->get();
         $serti = Sertificate::where('user_id', $user->id)->get();
 
-        return view('manajer.pegawai', compact('user','pend', 'work', 'skill', 'bahasa', 'serti'));
+        return view('manajer.pegawai', compact('user', 'pend', 'work', 'skill', 'bahasa', 'serti'));
     }
-
 
 
     //halaman akun
