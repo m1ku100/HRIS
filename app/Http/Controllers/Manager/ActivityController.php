@@ -139,21 +139,28 @@ class ActivityController extends Controller
 
         $posisi = $request->posisi;
 
-        if ($posisi == 'all') {
+        $lamaran = Lamaran::when($request->degree, function ($query) use ($request) {
+            $query->wherehas('getUser', function ($query) use($request) {
+                $query->wherehas('getPendidikan', function ($pend) use ($request) {
+                    $pend->where('edu_id', $request->degree);
+                });
+            });
+        })->when($request->start, function ($query) use ($request) {
+            $query->when($request->end, function ($query) use ($request) {
+                $query->where('created_at', '>=', Carbon::parse($request->start))
+                    ->where('created_at', '<=', Carbon::parse($request->end)->addDay(+1));
+            });
+        })->when($request->posisi, function ($query) use ($request) {
+            $query->where('posisi_id', $request->posisi);
+        })->paginate(10)->appends($request->only([
+            'posisi',
+            'start',
+            'end',
+            'degree'
+        ]));
 
-            $lamaran = Lamaran::wherehas('getPosisi', function ($query) {
-                $query->where('is_over', false);
-            })->where('created_at', '>=', Carbon::parse($request->start))->where('created_at', '<=', Carbon::parse($request->end)->addDay(+1))->paginate(10);
+        return view('manajer.lamaran', compact('lamaran'));
 
-            return view('manajer.lamaran', compact('lamaran'));
-        } else {
-
-            $lamaran = Lamaran::wherehas('getPosisi', function ($query) {
-                $query->where('is_over', false);
-            })->where('posisi_id', $posisi)->where('created_at', '>=', Carbon::parse($request->start))->where('created_at', '<=', Carbon::parse($request->end)->addDay(+1))->paginate(10);
-
-            return view('manajer.lamaran', compact('lamaran'));
-        }
     }
 
     public function detail(Request $request)

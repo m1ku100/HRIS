@@ -302,15 +302,14 @@
                                          aria-labelledby="contact-tab">
                                         <br>
                                         <h3><i class="fas fa-bell"></i> Riwayat Pendidikan Anda</h3>
-                                        @if(App\Pendidikan::where('user_id',Auth::user()->id)->count() >= 2 )
-                                        @else
+
                                             <a href="{{route('edu-pegawai')}}" class="pull-right">
                                                 <button class="btn btn-primary btn-sm rounded pull-right"><span
                                                             class="fa fa-plus-circle"></span>Tambah Data Pendidikan
                                                 </button>
                                             </a>
-                                        @endif
-                                        <small>Tambahkan 2 Jenjang Pendidikan Tertinggi</small>
+
+                                        <small>Tambahkan Jenjang Pendidikan Telah Anda Tempuh</small>
 
                                         <center>
                                             <div class="table-responsive table-responsive-data2">

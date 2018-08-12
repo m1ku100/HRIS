@@ -21,4 +21,10 @@ class Lamaran extends Model
     {
         return $this->belongsTo('App\Posisi','posisi_id');
     }
+
+    public function getUser()
+    {
+        return $this->belongsTo('App\User','user_id');
+    }
+
 }

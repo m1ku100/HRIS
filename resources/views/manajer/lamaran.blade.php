@@ -18,7 +18,7 @@
                                     <div class="rs-select2--light rs-select2--lg">
                                         <label for="nf-email" class="form-control-label">Posisi Yang Tersedia saat Ini</label>
                                         <select class="js-select2" name="posisi">
-                                            <option value="all">Semua</option>
+                                            <option value="">Semua</option>
                                             @foreach(App\Posisi::where('is_over',false)->get() as $posisi)
                                                 <option value="{{$posisi->id}}">{{$posisi->nama}}</option>
                                             @endforeach
@@ -39,7 +39,7 @@
                                     <div class="rs-select2--light rs-select2--lg">
                                         <label for="nf-email" class="form-control-label">Pendidikan Pelamar</label>
                                         <select class="js-select2" name="degree">
-                                            <option value="all">Semua</option>
+                                            <option value="">Semua</option>
                                             @foreach(App\Edu::all() as $edu)
                                                 <option value="{{$edu->id}}">{{$edu->jenjang}}</option>
                                             @endforeach
@@ -80,7 +80,7 @@
                                             <td>{{$lamarans->created_at->format('D,d M Y')}}</td>
                                             <td>
 
-                                                {{App\Pendidikan::where('user_id',App\User::find($lamarans->user_id)->id)->get()}}
+{{--                                                {{App\Pendidikan::where('user_id',App\User::find($lamarans->user_id)->id)->get()}}--}}
                                                 @if($lamarans->is_atasi == true)
                                                     <span class="status--process">Sudah Diproses</span>
                                                 @else
