@@ -95,13 +95,24 @@ class LoginController extends Controller
         
     }
 
+    protected function guard()
+    {
+        return Auth::guard();
+    }
 
     public function logout(Request $request)
     {
-        $this->guard()->logout();
+        if(Auth::guard('web')->check()){
+            $request->session()->invalidate();
+            Auth::guard('web')->logout();
 
-        $request->session()->invalidate();
+            return redirect('/login');
+        }
 
-        return $this->loggedOut($request) ?: redirect('/login');
+//        $this->guard()->logout();
+//
+//        $request->session()->invalidate();
+//
+//        return $this->loggedOut($request) ?: redirect('/login');
     }
 }

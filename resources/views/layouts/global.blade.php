@@ -65,79 +65,79 @@
         <nav class="navbar-mobile">
             <div class="container-fluid">
                 <ul class="navbar-mobile__list list-unstyled">
+                    @auth()
+                        @if(Auth::check())
 
-                    @if(Auth::check())
-
-                        @if(Auth::user()->isManajer())
-                            <li>
-                                <a href="{{route('home-manajer')}}">
-                                    <i class="fas fa-chart-bar"></i>Dashboard</a>
-                            </li>
-                            <li>
-                                <a href="{{route('posisi-manajer')}}">
-                                    <i class="fas fa-list-alt"></i>Posisi</a>
-                            </li>
-                            <li>
-                                <a href="{{route('lamaran-manajer')}}">
-                                    <i class="fas fa-file"></i>Lamaran</a>
-                            </li>
-                            <li>
-                                <a href="{{route('user-manajer')}}">
-                                    <i class="fas fa-users"></i>Data Pegawai</a>
-                            </li>
-                            <li>
-                                <a href="{{route('akun-manajer')}}">
-                                    <i class="fas fa-user"></i>Account Setting</a>
-                            </li>
-                        @elseif(Auth::user()->isPegawai())
-                            <li>
-                                <a href="{{route('home-pegawai')}}">
-                                    <i class="fas fa-chart-bar"></i>Dashboard</a>
-                            </li>
-                            <li>
-                                <a href="{{route('posisi-pegawai')}}">
-                                    <i class="fas fa-table"></i>Posisi Yang Tersedia</a>
-                            </li>
-                            {{--<li class="has-sub">--}}
-                            {{--<a class="js-arrow" href="#">--}}
-                            {{--<i class="fas fa-folder"></i>Resume</a>--}}
-                            {{--<ul class="list-unstyled navbar__sub-list js-sub-list">--}}
-                            {{--<li>--}}
-                            {{--<a href="login.html">Pendidikan</a>--}}
-                            {{--</li>--}}
-                            {{--<li>--}}
-                            {{--<a href="register.html">Pengalaman Kerja</a>--}}
-                            {{--</li>--}}
-                            {{--<li>--}}
-                            {{--<a href="forget-pass.html">Keterampilan Dan Bahasa</a>--}}
-                            {{--</li>--}}
-                            {{--</ul>--}}
-                            {{--</li>--}}
-                            <li>
-                                <a href="{{route('resume-pegawai')}}">
-                                    <i class="fas fa-folder"></i>Resume</a>
-                            </li>
-                            <li>
-                                <a href="{{route('akun-pegawai')}}">
-                                    <i class="fas fa-user"></i>Setting Akun</a>
-                            </li>
-                        @elseif(Auth::user()->isAdmin())
-                            <li>
-                                <a href="{{route('home-admin')}}">
-                                    <i class="fas fa-chart-bar"></i>Dashboard</a>
-                            </li>
-                            <li>
-                                <a href="{{route('user-admin')}}">
-                                    <i class="fas fa-users"></i>Reset User</a>
-                            </li>
-                            <li>
-                                <a href="{{route('akun-admin')}}">
-                                    <i class="fas fa-user"></i>Setting Account</a>
-                            </li>
-                        @endif
+                            @if(Auth::user()->isManajer())
+                                <li>
+                                    <a href="{{route('home-manajer')}}">
+                                        <i class="fas fa-chart-bar"></i>Dashboard</a>
+                                </li>
+                                <li>
+                                    <a href="{{route('posisi-manajer')}}">
+                                        <i class="fas fa-list-alt"></i>Posisi</a>
+                                </li>
+                                <li>
+                                    <a href="{{route('lamaran-manajer')}}">
+                                        <i class="fas fa-file"></i>Lamaran</a>
+                                </li>
+                                <li>
+                                    <a href="{{route('user-manajer')}}">
+                                        <i class="fas fa-users"></i>Data Pegawai</a>
+                                </li>
+                                <li>
+                                    <a href="{{route('akun-manajer')}}">
+                                        <i class="fas fa-user"></i>Account Setting</a>
+                                </li>
+                            @elseif(Auth::user()->isPegawai())
+                                <li>
+                                    <a href="{{route('home-pegawai')}}">
+                                        <i class="fas fa-chart-bar"></i>Dashboard</a>
+                                </li>
+                                <li>
+                                    <a href="{{route('posisi-pegawai')}}">
+                                        <i class="fas fa-table"></i>Posisi Yang Tersedia</a>
+                                </li>
+                                {{--<li class="has-sub">--}}
+                                {{--<a class="js-arrow" href="#">--}}
+                                {{--<i class="fas fa-folder"></i>Resume</a>--}}
+                                {{--<ul class="list-unstyled navbar__sub-list js-sub-list">--}}
+                                {{--<li>--}}
+                                {{--<a href="login.html">Pendidikan</a>--}}
+                                {{--</li>--}}
+                                {{--<li>--}}
+                                {{--<a href="register.html">Pengalaman Kerja</a>--}}
+                                {{--</li>--}}
+                                {{--<li>--}}
+                                {{--<a href="forget-pass.html">Keterampilan Dan Bahasa</a>--}}
+                                {{--</li>--}}
+                                {{--</ul>--}}
+                                {{--</li>--}}
+                                <li>
+                                    <a href="{{route('resume-pegawai')}}">
+                                        <i class="fas fa-folder"></i>Resume</a>
+                                </li>
+                                <li>
+                                    <a href="{{route('akun-pegawai')}}">
+                                        <i class="fas fa-user"></i>Setting Akun</a>
+                                </li>
+                            @elseif(Auth::user()->isAdmin())
+                                <li>
+                                    <a href="{{route('home-admin')}}">
+                                        <i class="fas fa-chart-bar"></i>Dashboard</a>
+                                </li>
+                                <li>
+                                    <a href="{{route('user-admin')}}">
+                                        <i class="fas fa-users"></i>Reset User</a>
+                                </li>
+                                <li>
+                                    <a href="{{route('akun-admin')}}">
+                                        <i class="fas fa-user"></i>Setting Account</a>
+                                </li>
+                            @endif
                 </ul>
                 @endif
-
+                @endauth
 
             </div>
         </nav>
@@ -155,63 +155,65 @@
         </div>
         <div class="menu-sidebar__content js-scrollbar1">
             <nav class="navbar-sidebar">
-                @if(Auth::check())
-                    <ul class="list-unstyled navbar__list">
-                        @if(Auth::user()->isManajer())
-                            <li>
-                                <a href="{{route('home-manajer')}}">
-                                    <i class="fas fa-chart-bar"></i>Dashboard</a>
-                            </li>
-                            <li>
-                                <a href="{{route('posisi-manajer')}}">
-                                    <i class="fas fa-list-alt"></i>Posisi</a>
-                            </li>
-                            <li>
-                                <a href="{{route('lamaran-manajer')}}">
-                                    <i class="fas fa-file"></i>Lamaran</a>
-                            </li>
-                            <li>
-                                <a href="{{route('user-manajer')}}">
-                                    <i class="fas fa-users"></i>Data Pegawai</a>
-                            </li>
-                            <li>
-                                <a href="{{route('akun-manajer')}}">
-                                    <i class="fas fa-cog"></i>Account Setting</a>
-                            </li>
-                        @elseif(Auth::user()->isPegawai())
-                            <li>
-                                <a href="{{route('home-pegawai')}}">
-                                    <i class="fas fa-chart-bar"></i>Dashboard</a>
-                            </li>
-                            <li>
-                                <a href="{{route('posisi-pegawai')}}">
-                                    <i class="fas fa-table"></i>Posisi Yang Tersedia</a>
-                            </li>
+                @auth()
+                    @if(Auth::check())
+                        <ul class="list-unstyled navbar__list">
+                            @if(Auth::user()->isManajer())
+                                <li>
+                                    <a href="{{route('home-manajer')}}">
+                                        <i class="fas fa-chart-bar"></i>Dashboard</a>
+                                </li>
+                                <li>
+                                    <a href="{{route('posisi-manajer')}}">
+                                        <i class="fas fa-list-alt"></i>Posisi</a>
+                                </li>
+                                <li>
+                                    <a href="{{route('lamaran-manajer')}}">
+                                        <i class="fas fa-file"></i>Lamaran</a>
+                                </li>
+                                <li>
+                                    <a href="{{route('user-manajer')}}">
+                                        <i class="fas fa-users"></i>Data Pegawai</a>
+                                </li>
+                                <li>
+                                    <a href="{{route('akun-manajer')}}">
+                                        <i class="fas fa-cog"></i>Account Setting</a>
+                                </li>
+                            @elseif(Auth::user()->isPegawai())
+                                <li>
+                                    <a href="{{route('home-pegawai')}}">
+                                        <i class="fas fa-chart-bar"></i>Dashboard</a>
+                                </li>
+                                <li>
+                                    <a href="{{route('posisi-pegawai')}}">
+                                        <i class="fas fa-table"></i>Posisi Yang Tersedia</a>
+                                </li>
 
-                            <li>
-                                <a href="{{route('resume-pegawai')}}">
-                                    <i class="fas fa-folder"></i>Resume</a>
-                            </li>
-                            <li>
-                                <a href="{{route('akun-pegawai')}}">
-                                    <i class="fas fa-user"></i>Setting Akun</a>
-                            </li>
-                        @elseif(Auth::user()->isAdmin())
-                            <li>
-                                <a href="{{route('home-admin')}}">
-                                    <i class="fas fa-chart-bar"></i>Dashboard</a>
-                            </li>
-                            <li>
-                                <a href="{{route('user-admin')}}">
-                                    <i class="fas fa-users"></i>Reset User</a>
-                            </li>
-                            <li>
-                                <a href="{{route('akun-admin')}}">
-                                    <i class="fas fa-user"></i>Setting Account</a>
-                            </li>
-                        @endif
-                    </ul>
-                @endif
+                                <li>
+                                    <a href="{{route('resume-pegawai')}}">
+                                        <i class="fas fa-folder"></i>Resume</a>
+                                </li>
+                                <li>
+                                    <a href="{{route('akun-pegawai')}}">
+                                        <i class="fas fa-user"></i>Setting Akun</a>
+                                </li>
+                            @elseif(Auth::user()->isAdmin())
+                                <li>
+                                    <a href="{{route('home-admin')}}">
+                                        <i class="fas fa-chart-bar"></i>Dashboard</a>
+                                </li>
+                                <li>
+                                    <a href="{{route('user-admin')}}">
+                                        <i class="fas fa-users"></i>Reset User</a>
+                                </li>
+                                <li>
+                                    <a href="{{route('akun-admin')}}">
+                                        <i class="fas fa-user"></i>Setting Account</a>
+                                </li>
+                            @endif
+                        </ul>
+                    @endif
+                @endauth
             </nav>
         </div>
     </aside>
@@ -230,41 +232,43 @@
                         <div class="header-button">
                             <div class="noti-wrap">
                             </div>
-                            <div class="account-wrap">
-                                <div class="account-item clearfix js-item-menu">
+                            @auth()
+                                <div class="account-wrap">
+                                    <div class="account-item clearfix js-item-menu">
 
-                                    <div class="content">
-                                        <a class="js-acc-btn" href="#"> {{ Auth::user()->name }}</a>
-                                    </div>
-                                    <div class="account-dropdown js-dropdown">
-                                        <div class="info clearfix">
-
-                                            <div class="content">
-                                                <h5 class="name">
-                                                    <a href="#"> {{ Auth::user()->role }}</a>
-                                                </h5>
-                                                <span class="email"> {{ Auth::user()->email }}</span>
-                                            </div>
+                                        <div class="content">
+                                            <a class="js-acc-btn" href="#"> {{ Auth::user()->name }}</a>
                                         </div>
-                                        {{--<div class="account-dropdown__body">--}}
-                                        {{--<div class="account-dropdown__item">--}}
-                                        {{--<a href="#">--}}
-                                        {{--<i class="zmdi zmdi-account"></i>Account</a>--}}
-                                        {{--</div>--}}
-                                        {{--</div>--}}
-                                        <div class="account-dropdown__footer">
-                                            <a href="{{ route('logout') }}"
-                                               onclick="event.preventDefault();
+                                        <div class="account-dropdown js-dropdown">
+                                            <div class="info clearfix">
+
+                                                <div class="content">
+                                                    <h5 class="name">
+                                                        <a href="#"> {{ Auth::user()->role }}</a>
+                                                    </h5>
+                                                    <span class="email"> {{ Auth::user()->email }}</span>
+                                                </div>
+                                            </div>
+                                            {{--<div class="account-dropdown__body">--}}
+                                            {{--<div class="account-dropdown__item">--}}
+                                            {{--<a href="#">--}}
+                                            {{--<i class="zmdi zmdi-account"></i>Account</a>--}}
+                                            {{--</div>--}}
+                                            {{--</div>--}}
+                                            <div class="account-dropdown__footer">
+                                                <a href="{{ route('logout') }}"
+                                                   onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                                <i class="zmdi zmdi-power"></i>Logout</a>
-                                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                                  style="display: none;">
-                                                @csrf
-                                            </form>
+                                                    <i class="zmdi zmdi-power"></i>Logout</a>
+                                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                                      style="display: none;">
+                                                    @csrf
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endauth
                         </div>
                     </div>
                 </div>
@@ -305,6 +309,12 @@
             height: 300,
             theme: 'modern',
             toolbar1: 'styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+            plugins:  [
+                'advlist anchor autolink autoresize autosave bbcode charmap code  colorpicker contextmenu',
+                'directionality emoticons  help hr image imagetools importcss insertdatetime',
+                'legacyoutput link lists media nonbreaking noneditable pagebreak paste preview print save searchreplace',
+                'spellchecker tabfocus table template textcolor textpattern toc visualblocks visualchars wordcount',
+            ],
         });
     });
 </script>

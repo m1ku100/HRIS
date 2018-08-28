@@ -16,8 +16,22 @@
                                 <form action="{{route('pegawai-cari')}}" method="get">
                                     <div class="rs-select2--light rs-select2--lg">
                                         <label for="nf-email" class="form-control-label"></label>
-                                        <input type="text" id="nf-email" name="user"
+                                        <input type="text" id="nf-email" name="nama"
+                                               @if(!is_null($nama))value="{{$nama}}" @endif
                                                class="form-control" autofocus placeholder="Nama Pegawai...">
+                                    </div>
+                                    <div class="rs-select2--light rs-select2--lg">
+                                        <label for="nf-email" class="form-control-label">Pendidikan Pegawai</label>
+                                        <select class="js-select2" name="degree">
+                                            @if(!is_null($degree))
+                                                <option value="{{$degree}}">{{App\Edu::find($degree)->jenjang}}</option>
+                                            @endif
+                                            <option value="">Semua</option>
+                                            @foreach(App\Edu::all() as $edu)
+                                                <option value="{{$edu->id}}">{{$edu->jenjang}}</option>
+                                            @endforeach
+                                        </select>
+                                        <div class="dropDownSelect2"></div>
                                     </div>
                                     <button type="submit" class="au-btn-filter">
                                         <i class="zmdi zmdi-search"></i>Cari
@@ -50,7 +64,7 @@
                                             $num++;
                                             ?>
                                             <td class="desc">{{$row->name}}</td>
-                                            <td >{{$row->email}}</td>
+                                            <td>{{$row->email}}</td>
                                             <td>
                                                 <div class="pull-left">
                                                     <div class="table-data-feature">
@@ -74,31 +88,31 @@
                                         </tr>
 
                                         {{--<tr id="extra_{{ $row->id }}" class="tr-shadow" style="display: none">--}}
-                                            {{--<td colspan="4">--}}
-                                                {{--<div class="table-responsive table-responsive-data2">--}}
-                                                    {{--<table class="table table-data2">--}}
-                                                        {{--<thead>--}}
-                                                        {{--<tr>--}}
-                                                            {{--<th colspan="6">--}}
-                                                                {{--<center>--}}
-                                                                    {{--<h4>Daftar Pelamar Pada Posisi Ini</h4>--}}
-                                                                {{--</center>--}}
-                                                            {{--</th>--}}
-                                                        {{--</tr>--}}
-                                                        {{--<tr>--}}
-                                                            {{--<td>No</td>--}}
-                                                            {{--<th>Nama Pelamar</th>--}}
-                                                            {{--<th>Email Pelamar</th>--}}
-                                                            {{--<th>Tanggal Masuk Lamaran</th>--}}
-                                                            {{--<th>status</th>--}}
-                                                            {{--<th></th>--}}
-                                                        {{--</tr>--}}
-                                                        {{--</thead>--}}
-                                                        {{--<tbody>--}}
-                                                        {{--</tbody>--}}
-                                                    {{--</table>--}}
-                                                {{--</div>--}}
-                                            {{--</td>--}}
+                                        {{--<td colspan="4">--}}
+                                        {{--<div class="table-responsive table-responsive-data2">--}}
+                                        {{--<table class="table table-data2">--}}
+                                        {{--<thead>--}}
+                                        {{--<tr>--}}
+                                        {{--<th colspan="6">--}}
+                                        {{--<center>--}}
+                                        {{--<h4>Daftar Pelamar Pada Posisi Ini</h4>--}}
+                                        {{--</center>--}}
+                                        {{--</th>--}}
+                                        {{--</tr>--}}
+                                        {{--<tr>--}}
+                                        {{--<td>No</td>--}}
+                                        {{--<th>Nama Pelamar</th>--}}
+                                        {{--<th>Email Pelamar</th>--}}
+                                        {{--<th>Tanggal Masuk Lamaran</th>--}}
+                                        {{--<th>status</th>--}}
+                                        {{--<th></th>--}}
+                                        {{--</tr>--}}
+                                        {{--</thead>--}}
+                                        {{--<tbody>--}}
+                                        {{--</tbody>--}}
+                                        {{--</table>--}}
+                                        {{--</div>--}}
+                                        {{--</td>--}}
                                         {{--</tr>--}}
 
                                         <tr class="spacer"></tr>

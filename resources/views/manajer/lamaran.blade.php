@@ -46,6 +46,11 @@
                                         </select>
                                         <div class="dropDownSelect2"></div>
                                     </div>
+                                    <div class="rs-select2--light rs-select2--lg">
+                                        <label for="nf-email" class="form-control-label">Min. Pengalaman</label>
+                                        <input type="text" id="nf-email" name="exp" onkeypress="return isNumberKey(event)"
+                                               class="form-control" placeholder="Dalam Tahun">
+                                    </div>
                                     <button type="submit" class="au-btn-filter">
                                         <i class="zmdi zmdi-filter-list"></i>filters
                                     </button>

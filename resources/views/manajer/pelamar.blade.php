@@ -51,8 +51,8 @@
                                             @foreach(App\Employee::where('user_id',$user->id)->get() as $akun)
                                                 <br>
                                                 <div class="row">
-                                                    <div class="col-md-4">
-                                                        <img src="{{asset($akun->dir_foto)}}">
+                                                    <div class="col-md-3">
+                                                        <img src="{{asset($akun->dir_foto)}}" style="width: 300px;height:400px ">
                                                     </div>
                                                     <div class="col-md-5">
                                                         <div class="location text-sm-left">
@@ -173,7 +173,12 @@
                                                             <td colspan="2">
                                                                 <h3>{{$pendidikan->instansi}}</h3>
                                                                 <p>{{App\Edu::find($pendidikan->edu_id)->jenjang}}
-                                                                    Jurusan {{App\Jurusan::find($pendidikan->jurusan)->name}}
+                                                                    @if(App\Edu::find($pendidikan->edu_id)->jenjang == 'Sekolah Dasar' ||
+                                                                     App\Edu::find($pendidikan->edu_id)->jenjang == 'Sekolah Menengah Pertama / Sederajat' ||
+                                                                     App\Edu::find($pendidikan->edu_id)->jenjang == 'Sekolah Menengah Atas / Sederajat' )
+                                                                    @else
+                                                                        Jurusan {{App\Jurusan::find($pendidikan->jurusan)->name}}
+                                                                    @endif
                                                                     | {{App\Negara::find($pendidikan->negara_id)->nama}}</p>
                                                             </td>
                                                             <td>

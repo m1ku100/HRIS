@@ -58,8 +58,9 @@
                                                 @foreach(App\Employee::where('user_id',Auth::user()->id)->get() as $akun)
                                                     <br>
                                                     <div class="row">
-                                                        <div class="col-md-4">
-                                                            <img src="{{asset($akun->dir_foto)}}">
+                                                        <div class="col-md-3">
+                                                            <img src="{{asset($akun->dir_foto)}}"
+                                                                 style="width: 300px;height:400px ">
                                                         </div>
                                                         <div class="col-md-5">
                                                             <div class="location text-sm-left">
@@ -303,11 +304,11 @@
                                         <br>
                                         <h3><i class="fas fa-bell"></i> Riwayat Pendidikan Anda</h3>
 
-                                            <a href="{{route('edu-pegawai')}}" class="pull-right">
-                                                <button class="btn btn-primary btn-sm rounded pull-right"><span
-                                                            class="fa fa-plus-circle"></span>Tambah Data Pendidikan
-                                                </button>
-                                            </a>
+                                        <a href="{{route('edu-pegawai')}}" class="pull-right">
+                                            <button class="btn btn-primary btn-sm rounded pull-right"><span
+                                                        class="fa fa-plus-circle"></span>Tambah Data Pendidikan
+                                            </button>
+                                        </a>
 
                                         <small>Tambahkan Jenjang Pendidikan Telah Anda Tempuh</small>
 
@@ -337,7 +338,12 @@
                                                             <td colspan="2">
                                                                 <h3>{{$pendidikan->instansi}}</h3>
                                                                 <p>{{App\Edu::find($pendidikan->edu_id)->jenjang}}
-                                                                    Jurusan {{App\Jurusan::find($pendidikan->jurusan)->name}}
+                                                                    @if(App\Edu::find($pendidikan->edu_id)->jenjang == 'Sekolah Dasar' ||
+                                                                     App\Edu::find($pendidikan->edu_id)->jenjang == 'Sekolah Menengah Pertama / Sederajat' ||
+                                                                     App\Edu::find($pendidikan->edu_id)->jenjang == 'Sekolah Menengah Atas / Sederajat' )
+                                                                        @else
+                                                                        Jurusan {{App\Jurusan::find($pendidikan->jurusan)->name}}
+                                                                    @endif
                                                                     | {{App\Negara::find($pendidikan->negara_id)->nama}}</p>
                                                             </td>
                                                             <td>
@@ -860,8 +866,10 @@
                                                                         style="display: none">
                                                                         <td colspan="3">
 
-                                                                            <form action="{{route('sertificate-update')}}" method="post"
-                                                                                  class="" enctype="multipart/form-data">
+                                                                            <form action="{{route('sertificate-update')}}"
+                                                                                  method="post"
+                                                                                  class=""
+                                                                                  enctype="multipart/form-data">
                                                                                 {{ csrf_field() }}
                                                                                 <div class="card-body card-block">
                                                                                     <div class="form-group">
@@ -869,49 +877,63 @@
                                                                                             <div class="col-md-6">
                                                                                                 <label for="nf-email"
                                                                                                        class="form-control-label">Keahlian</label>
-                                                                                                <input type="text" id="nf-email"
+                                                                                                <input type="text"
+                                                                                                       id="nf-email"
                                                                                                        name="keahlian"
                                                                                                        placeholder="Jenis Keahlian Dari Sertifikat yang Akan Anda Upload...."
-                                                                                                       class="form-control" value="{{$sert->keahlian}}">
+                                                                                                       class="form-control"
+                                                                                                       value="{{$sert->keahlian}}">
                                                                                             </div>
                                                                                             <div class="col-md-6">
                                                                                                 <label for="nf-email"
                                                                                                        class="form-control-label">Nama
                                                                                                     Setifikat</label>
-                                                                                                <input type="text" id="nf-email"
+                                                                                                <input type="text"
+                                                                                                       id="nf-email"
                                                                                                        name="setifikat"
                                                                                                        placeholder="Nama Sertifikat yang Akan Anda Upload...."
-                                                                                                       class="form-control" value="{{$sert->setifikat}}">
+                                                                                                       class="form-control"
+                                                                                                       value="{{$sert->setifikat}}">
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="form-group">
-                                                                                        <label for="nf-email" class="form-control-label">Keterangan
+                                                                                        <label for="nf-email"
+                                                                                               class="form-control-label">Keterangan
                                                                                             Dari Sertifikat</label>
-                                                                                        <textarea class="form-control use-tinymce"
-                                                                                                  name="ket_setifikat"
-                                                                                                  placeholder="Deskripsi Posisi yang Dibutuhkan...."> {!! $sert->ket_setifikat !!} </textarea>
+                                                                                        <textarea
+                                                                                                class="form-control use-tinymce"
+                                                                                                name="ket_setifikat"
+                                                                                                placeholder="Deskripsi Posisi yang Dibutuhkan...."> {!! $sert->ket_setifikat !!} </textarea>
                                                                                     </div>
                                                                                     <div class="form-group">
-                                                                                        <label for="nf-email" class="form-control-label">File
+                                                                                        <label for="nf-email"
+                                                                                               class="form-control-label">File
                                                                                             Sertifikat
-                                                                                            <small>(Max. 2mb. Format .jpg/.jpeg/.png)
+                                                                                            <small>(Max. 2mb. Format
+                                                                                                .jpg/.jpeg/.png)
                                                                                             </small>
                                                                                         </label>
                                                                                         <img src="{{asset($sert->dir_setifikat)}}">
-                                                                                        <input type="hidden" name="dir_lama" value="{{$sert->dir_setifikat}}">
+                                                                                        <input type="hidden"
+                                                                                               name="dir_lama"
+                                                                                               value="{{$sert->dir_setifikat}}">
                                                                                         <input type="file" id="nf-email"
                                                                                                name="dir_setifikat"
-                                                                                               class="form-control" readonly>
-                                                                                        <input type="hidden" name="user_id"
+                                                                                               class="form-control"
+                                                                                               readonly>
+                                                                                        <input type="hidden"
+                                                                                               name="user_id"
                                                                                                value="{{ Auth::user()->id }}">
                                                                                         <input type="hidden" name="id"
                                                                                                value="{{ $sert->id }}">
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="card-footer">
-                                                                                    <button type="submit" class="btn btn-primary btn-md">
-                                                                                        <i class="fa fa-upload"></i> Upload
+                                                                                    <button type="submit"
+                                                                                            class="btn btn-primary btn-md">
+                                                                                        <i class="fa fa-upload"></i>
+                                                                                        Upload
                                                                                     </button>
 
                                                                                 </div>

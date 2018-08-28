@@ -24,6 +24,7 @@ class CreatePegawaiTable extends Migration
             $table->string('gender');
             $table->string('telp');
             $table->string('email');
+            $table->integer('exp_total')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

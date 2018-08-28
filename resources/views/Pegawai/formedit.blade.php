@@ -87,8 +87,10 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="row">
-                                            <div class="col-md-12">
-                                                <img src="{{asset($edit->dir_foto)}}">
+                                            <div class="col-md-3">
+                                                <img src="{{asset($edit->dir_foto)}}" style="width: 300px;height:400px ">
+                                            </div>
+                                            <div class="col-md-9">
                                                 <label for="nf-email" class="form-control-label">Foto Diri
                                                     <small>Maks. 2mb (.PNG/.JPG/.JPEG)</small>
                                                 </label>

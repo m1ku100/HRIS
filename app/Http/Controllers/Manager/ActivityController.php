@@ -12,6 +12,7 @@ use App\Posisi;
 use App\Sertificate;
 use App\Skill;
 use App\User;
+use function foo\func;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Carbon;
@@ -21,27 +22,54 @@ use Illuminate\Support\Facades\Hash;
 class ActivityController extends Controller
 {
 
+    /**
+     * set middleware
+     *
+     * ActivityController constructor.
+     */
     public function __construct()
     {
-        $this->middleware(['guest']);
+        $this->middleware('auth');
     }
 
+    /**
+     * Get index page for manager
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
         return view('manajer.homemanajer');
     }
 
+    /**
+     * Get Posisi Page
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function posisi()
     {
         $posisi = Posisi::orderBy('created_at', 'DESC')->paginate(10);
         return view('manajer.posisi', compact('posisi'));
     }
 
+    /**
+     * Get form Posisi Page
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function posisiform()
     {
         return view('manajer.formposisi');
     }
 
+    /**
+     * Create Posisi Data
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     *
+     */
     public function posisisave(Request $request)
     {
         $request->validate([
@@ -61,6 +89,13 @@ class ActivityController extends Controller
 
     }
 
+    /**
+     * Update Posisi Record for actif period
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     *
+     */
     public function hide(Request $request)
     {
         $this->validate($request, [
@@ -74,6 +109,12 @@ class ActivityController extends Controller
         return back()->with('success', '');
     }
 
+    /**
+     * Delete Posisi Record
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function posisidelete(Request $request)
     {
         $this->validate($request, [
@@ -86,6 +127,13 @@ class ActivityController extends Controller
         return back()->with('delete', '');
     }
 
+
+    /**
+     * Update Posisi Record
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function posisiupdate(Request $request)
     {
         $request->validate([
@@ -104,6 +152,11 @@ class ActivityController extends Controller
         return back()->with('update', 'Berhasil Memperbarui Data!!');
     }
 
+    /**
+     * Get Lamaran Page
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function lamaran()
     {
         $degree = null;
@@ -117,6 +170,12 @@ class ActivityController extends Controller
         return view('manajer.lamaran', compact('posisi', 'degree', 'lamaran'));
     }
 
+    /**
+     * Update Lamraan
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function proses(Request $request)
     {
         $lamaran = Lamaran::find($request->id);
@@ -127,6 +186,12 @@ class ActivityController extends Controller
         return back()->with('update', 'Berhasil Memperbarui Data!!');
     }
 
+    /**
+     * Filter lamaaran Page
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
     public function search(Request $request)
     {
 
@@ -140,29 +205,42 @@ class ActivityController extends Controller
         $posisi = $request->posisi;
 
         $lamaran = Lamaran::when($request->degree, function ($query) use ($request) {
-            $query->wherehas('getUser', function ($query) use($request) {
+            $query->wherehas('getUser', function ($query) use ($request) {//filter Jenjang Pendidikan
                 $query->wherehas('getPendidikan', function ($pend) use ($request) {
                     $pend->where('edu_id', $request->degree);
                 });
             });
-        })->when($request->start, function ($query) use ($request) {
+        })->when($request->start, function ($query) use ($request) {//filter Tanggal Dibuat
             $query->when($request->end, function ($query) use ($request) {
                 $query->where('created_at', '>=', Carbon::parse($request->start))
                     ->where('created_at', '<=', Carbon::parse($request->end)->addDay(+1));
             });
-        })->when($request->posisi, function ($query) use ($request) {
+        })->when($request->posisi, function ($query) use ($request) {//Filter Untuk Posisi Tertentu
             $query->where('posisi_id', $request->posisi);
+        })->when($request->exp, function ($query) use ($request){//Filter Pengalaman
+            $query->wherehas('getUser', function ($query) use ($request){
+                $query->wherehas('getPegawai', function ($query) use ($request){
+                    $query->where('exp_total','>=',$request->exp);
+                });
+            });
         })->paginate(10)->appends($request->only([
             'posisi',
             'start',
             'end',
-            'degree'
+            'degree',
+            'exp'
         ]));
 
         return view('manajer.lamaran', compact('lamaran'));
 
     }
 
+    /**
+     * Get Detail Palamar
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function detail(Request $request)
     {
         $user = User::findOrFail(decrypt($request->id));
@@ -184,25 +262,53 @@ class ActivityController extends Controller
 
     //halaman user
 
+    /**
+     * Get list pegawai Page
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function user()
     {
+        $nama = null;
+        $degree = null;
+
         $user = User::where('role', 'pegawai')->paginate(10);
-        return view('manajer.user', compact('posisi', 'user'));
+        return view('manajer.user', compact( 'user','nama','degree'));
     }
 
+
+    /**
+     * Search Pegawai By Name
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
     public function pegawaisearch(Request $request)
     {
-        $key = $request->user;
+        $nama = $request->nama;
+        $degree = $request->degree;
 
-        $user = User::whereRaw('(name LIKE \'%' . $key . '%\')')->where('role', 'pegawai')->paginate(10);
+        $user = User::when($request->degree, function ($query) use ($request) {
+            $query->wherehas('getPendidikan', function ($pend) use ($request) {
+                $pend->where('edu_id', $request->degree);
+            });
+        })->when($request->nama, function ($query) use($request){
+            $query->whereRaw('(name LIKE \'%' . $request->nama . '%\')')->where('role', 'pegawai');
+        })->where('role','pegawai')->paginate(10);
 
         if ($user == null) {
             return back()->with('error', '');
         } else {
-            return view('manajer.user', compact('user'));
+            return view('manajer.user', compact('user','nama','degree'));
         }
     }
 
+    /**
+     * Get Detail Pegawai Page
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function pegawai(Request $request)
     {
         $user = User::findOrFail(decrypt($request->id));
@@ -219,10 +325,22 @@ class ActivityController extends Controller
 
     //halaman akun
 
+    /**
+     * Get Account Page
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function account()
     {
         return view('manajer.akun');
     }
+
+    /**
+     * Update Username and Password
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
 
     public function updateuser(Request $request)
     {

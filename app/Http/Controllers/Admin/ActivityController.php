@@ -8,12 +8,34 @@ use App\Http\Controllers\Controller;
 
 class ActivityController extends Controller
 {
+    /**
+     * Set Middleware for Auth
+     *
+     * ActivityController constructor.
+     *
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
+     * Get Index Page for Admin
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
         $user = User::orderBy('role')->paginate(4);
         return view('admin.homeadmin',compact('user'));
     }
 
+    /**
+     * Add User Record with Role 'manager'
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function adduser(Request $request)
     {
         $request->validate([
@@ -33,12 +55,23 @@ class ActivityController extends Controller
         return back()->with('success', '');
     }
 
+    /**
+     * Get User Page
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function user()
     {
         $result = null;
         return view('admin.user', compact('result'));
     }
 
+    /**
+     * Search User By the Email
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
     public function search(Request $request)
     {
         $key = $request->email;
@@ -50,11 +83,22 @@ class ActivityController extends Controller
         }
     }
 
+    /**
+     * Get Account Page
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function account()
     {
         return view('admin.akun');
     }
 
+    /**
+     * Reset Pass for user
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function reset(Request $request)
     {
         $user = User::find($request->id);

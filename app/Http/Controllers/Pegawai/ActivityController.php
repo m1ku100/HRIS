@@ -21,12 +21,23 @@ use Illuminate\Support\Facades\Storage;
 class ActivityController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     //halaman dashboard
     public function index()
     {
         return view('pegawai.home');
     }
 
+    /**
+     * Delete Lamaran
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function deletelamaran(Request $request)
     {
         $this->validate($request, [
@@ -46,6 +57,12 @@ class ActivityController extends Controller
         return view('pegawai.posisipeg', compact('posisi'));
     }
 
+    /**
+     * Create data pelamar
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function posisiadd(Request $request)
     {
         $request->validate([
@@ -68,6 +85,11 @@ class ActivityController extends Controller
 
     //Halaman Resume
 
+    /**
+     * get resume page
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function resume()
     {
         $pend = Pendidikan::where('user_id', Auth::user()->id)->orderBy('tahun_lulus', 'desc')->get();
@@ -88,6 +110,12 @@ class ActivityController extends Controller
         return view('pegawai.formedit');
     }
 
+    /**
+     * edit record pegawai
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request)
     {
         $request->validate([
@@ -135,6 +163,12 @@ class ActivityController extends Controller
 
     }
 
+    /**
+     * create data pegawai
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function addpro(Request $request)
     {
         $request->validate([
@@ -179,6 +213,12 @@ class ActivityController extends Controller
         return view('pegawai.work');
     }
 
+    /**
+     * create data work exp
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function workadd(Request $request)
     {
         $request->validate([
@@ -209,17 +249,44 @@ class ActivityController extends Controller
             'user_id' => $request->user_id,
         ]);
 
+        $emp = Employee::where('user_id', $request->user_id)->first();
+        $exp = Experience::where('user_id', $request->user_id)->get();
+        $totalExp = 0;
+
+        foreach ($exp as $row) {
+            $start = $row->work_till;
+            $end = $row->work_from;
+            $totalExp += ($end - $start)*-1;
+        }
+
+        $emp->update([
+            'exp_total' => $totalExp
+        ]);
+
         return redirect('/emp/resume')->with([
             'success' => 'Data Diri Berhasil Diubah!'
         ]);
     }
 
+    /**
+     * Get work exp edit form
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function workedit(Request $request)
     {
         $exp = Experience::findOrFail(decrypt($request->id));
         return view('pegawai.editwork', compact('exp'));
     }
 
+    /**
+     * update record work exp
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     *
+     */
     public function workupdate(Request $request)
     {
         $exp = Experience::find($request->id);
@@ -238,21 +305,59 @@ class ActivityController extends Controller
             'user_id' => $request->user_id,
         ]);
 
+        $emp = Employee::where('user_id', $request->user_id)->first();
+        $expe = Experience::where('user_id', $request->user_id)->get();
+        $totalExp = 0;
+
+        foreach ($expe as $row) {
+            $end = $row->work_till;
+            $start = $row->work_from;
+            $totalExp += $end - $start;
+        }
+
+        $emp->update([
+            'exp_total' => $totalExp
+        ]);
+
         return redirect('/emp/resume')->with([
             'success' => 'Data Diri Berhasil Diubah!'
         ]);
 
     }
 
+    /**
+     * delete Record Riwayat Pekerjaan
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     *
+     */
     public function workdelete(Request $request)
     {
+        $user = Auth::user()->id;
+
         $exp = Experience::find($request->id);
         $exp->delete();
+
+        $emp = Employee::where('user_id', $user)->first();
+        $expe = Experience::where('user_id', $user)->get();
+        $totalExp = 0;
+
+        foreach ($expe as $row) {
+            $end = $row->work_till;
+            $start = $row->work_from;
+            $totalExp += $end - $start;
+        }
+
+        $emp->update([
+            'exp_total' => $totalExp
+        ]);
 
         return back()->with([
             'success' => 'Berhasil Memperbarui Profile !'
         ]);
     }
+
 
     public function edu()
     {
@@ -260,6 +365,13 @@ class ActivityController extends Controller
         return view('pegawai.edu');
     }
 
+    /**
+     * create record pendidikan
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     *
+     */
     public function eduadd(Request $request)
     {
         $request->validate([
@@ -287,12 +399,26 @@ class ActivityController extends Controller
         ]);
     }
 
+    /**
+     * Get Pendidikan update Form
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     *
+     */
     public function eduedit(Request $request)
     {
         $pend = Pendidikan::findOrFail(decrypt($request->id));
         return view('pegawai.eduedit', compact('pend'));
     }
 
+    /**
+     * Update Record Pendidikan
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     *
+     */
     public function eduupdate(Request $request)
     {
         $pend = Pendidikan::find($request->id);
@@ -312,6 +438,13 @@ class ActivityController extends Controller
         ]);
     }
 
+    /**
+     * Delete Record pendidikan
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     *
+     */
     public function edudelete(Request $request)
     {
         $pend = Pendidikan::find($request->id);
@@ -322,6 +455,13 @@ class ActivityController extends Controller
         ]);
     }
 
+    /**
+     * Create Record Skill
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     *
+     */
     public function skill(Request $request)
     {
         $request->validate([
@@ -343,6 +483,12 @@ class ActivityController extends Controller
         ]);
     }
 
+    /**
+     * Update Record Skill
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function skillupdate(Request $request)
     {
         $skill = Skill::find($request->id);
@@ -358,6 +504,12 @@ class ActivityController extends Controller
         ]);
     }
 
+    /**
+     * Delete Record Skill
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function skilldelete(Request $request)
     {
         $skill = Skill::find($request->id);
@@ -368,6 +520,12 @@ class ActivityController extends Controller
         ]);
     }
 
+    /**
+     * Create Record Bahasa
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function bhs(Request $request)
     {
         $request->validate([
@@ -391,6 +549,12 @@ class ActivityController extends Controller
         ]);
     }
 
+    /**
+     * update Record bahasa
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function bhsupdate(Request $request)
     {
         $bhs = Bahasa::find($request->id);
@@ -409,6 +573,12 @@ class ActivityController extends Controller
         ]);
     }
 
+    /**
+     * delete bahasa
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function bhsdelete(Request $request)
     {
         $bhs = Bahasa::find($request->id);
@@ -420,17 +590,23 @@ class ActivityController extends Controller
     }
 
     //halaman Account
-    //
-    //
-    //
-    //
-    //
-    //
+
+    /**
+     * get Account page
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function account()
     {
         return view('pegawai.akunpeg');
     }
 
+    /**
+     * Update user data
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function updateuser(Request $request)
     {
         if (!Hash::check($request->passlama, Auth::user()->password)) {
@@ -463,6 +639,12 @@ class ActivityController extends Controller
         return view('pegawai.sertiifikat');
     }
 
+    /**
+     * Create data Sertifikat
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function sertificateadd(Request $request)
     {
         $request->validate([
@@ -496,6 +678,12 @@ class ActivityController extends Controller
         ]);
     }
 
+    /**
+     * Update Record sertifikat
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function sertificateupdate(Request $request)
     {
         $serti = Sertificate::find($request->id);
@@ -527,6 +715,12 @@ class ActivityController extends Controller
         ]);
     }
 
+    /**
+     * Delete Record sertifikat and photo
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function sertificatedelete(Request $request)
     {
         $ser = Sertificate::find($request->id);

@@ -20,6 +20,10 @@ class User extends Authenticatable
         'name', 'email', 'password', 'role',
     ];
 
+    /**
+     * Check whether this user is Manager or not
+     * @return bool
+     */
     public function isManajer()
     {
         return ($this->role == Role::MANAJER);
@@ -54,6 +58,11 @@ class User extends Authenticatable
         return $this->hasMany('App\Lamaran','user_id');
     }
 
+
+    public function getPegawai()
+    {
+        return $this->hasOne('App\Employee','user_id');
+    }
     /**
      * The attributes that should be hidden for arrays.
      *

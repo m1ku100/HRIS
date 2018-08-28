@@ -12,9 +12,14 @@ class Employee extends Model
     protected $table = 'pegawai';
 
     protected $fillable = [
-        'id', 'user_id', 'nama', 'dir_foto', 'tmp_lahir', 'tgl_lahir', 'gender', 'telp', 'email'
+        'id', 'user_id', 'nama', 'dir_foto', 'tmp_lahir', 'tgl_lahir', 'gender', 'telp', 'email', 'exp_total'
         ];
 
     protected $dates = ['deleted_at'];
+
+    public function getUser()
+    {
+        return $this->belongsTo('App\User','user_id');
+    }
 
 }

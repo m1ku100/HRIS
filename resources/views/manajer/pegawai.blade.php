@@ -51,6 +51,9 @@
                                             @foreach(App\Employee::where('user_id',$user->id)->get() as $akun)
                                                 <br>
                                                 <div class="row">
+                                                    <div class="col-md-3">
+                                                        <img src="{{asset($akun->dir_foto)}}" style="width: 300px;height:400px ">
+                                                    </div>
                                                     <div class="col-md-5">
                                                         <div class="location text-sm-left">
                                                             <table class="table table-borderless">
@@ -92,49 +95,49 @@
 
                                         <br>
                                         <hr>
-                                            <div class="table-responsive table-responsive-data2">
-                                                <table class="table table-data2">
-                                                    <thead>
-                                                    <tr>
-                                                        <th colspan="4">
-                                                            <center>
+                                        <div class="table-responsive table-responsive-data2">
+                                            <table class="table table-data2">
+                                                <thead>
+                                                <tr>
+                                                    <th colspan="4">
+                                                        <center>
 
-                                                            </center>
-                                                        </th>
-                                                    </tr>
+                                                        </center>
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                @foreach($work as $works)
                                                     <tr>
-                                                        <td></td>
-                                                        <th></th>
-                                                        <th></th>
-                                                        <th></th>
-                                                        <th></th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    @foreach($work as $works)
-                                                        <tr>
-                                                            <td colspan="2">
-                                                                <h5>{{$works->work_from}} - {{$works->work_till}}</h5>
-                                                            </td>
-                                                            <td colspan="2">
-                                                                <h3>{{$works->job_title}}</h3>
-                                                                <h5>{{$works->company}}</h5><br>
+                                                        <td colspan="2">
+                                                            <h5>{{$works->work_from}} - {{$works->work_till}}</h5>
+                                                        </td>
+                                                        <td colspan="2">
+                                                            <h3>{{$works->job_title}}</h3>
+                                                            <h5>{{$works->company}}</h5><br>
 
-                                                                <h6>Industri</h6>
-                                                                <p> {{App\Industri::find($works->industri_id)->nama}}</p>
-                                                                <h6>Jabatan</h6>
-                                                                <p> {{$works->position}}</p>
-                                                                <h6>Gaji Perbulan</h6>
-                                                                <p>{{$works->salary}} in {{$works->jenis_gaji}}</p>
-                                                                {!! $works->des_pos !!}
-                                                            </td>
-                                                            <td>
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                                                            <h6>Industri</h6>
+                                                            <p> {{App\Industri::find($works->industri_id)->nama}}</p>
+                                                            <h6>Jabatan</h6>
+                                                            <p> {{$works->position}}</p>
+                                                            <h6>Gaji Perbulan</h6>
+                                                            <p>{{$works->salary}} in {{$works->jenis_gaji}}</p>
+                                                            {!! $works->des_pos !!}
+                                                        </td>
+                                                        <td>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
 
                                     </div>
 
@@ -170,7 +173,12 @@
                                                             <td colspan="2">
                                                                 <h3>{{$pendidikan->instansi}}</h3>
                                                                 <p>{{App\Edu::find($pendidikan->edu_id)->jenjang}}
-                                                                    Jurusan {{App\Jurusan::find($pendidikan->jurusan)->name}}
+                                                                    @if(App\Edu::find($pendidikan->edu_id)->jenjang == 'Sekolah Dasar' ||
+                                                                     App\Edu::find($pendidikan->edu_id)->jenjang == 'Sekolah Menengah Pertama / Sederajat' ||
+                                                                     App\Edu::find($pendidikan->edu_id)->jenjang == 'Sekolah Menengah Atas / Sederajat' )
+                                                                    @else
+                                                                        Jurusan {{App\Jurusan::find($pendidikan->jurusan)->name}}
+                                                                    @endif
                                                                     | {{App\Negara::find($pendidikan->negara_id)->nama}}</p>
                                                             </td>
                                                             <td>
